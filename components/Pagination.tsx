@@ -11,12 +11,15 @@ export default function Pagination({ currentPage, totalPages, basePath = "/blog"
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
+  const btnBase = "px-4 py-2 rounded-lg text-sm transition-all duration-200";
+
   return (
     <div className="flex items-center justify-center gap-2 mt-10">
       {currentPage > 1 && (
         <Link
           href={`${basePath}?page=${currentPage - 1}`}
-          className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors text-sm"
+          className={`${btnBase} text-gray-400 hover:text-cyan-300`}
+          style={{ border: "1px solid rgba(56, 189, 248, 0.1)" }}
         >
           上一页
         </Link>
@@ -26,11 +29,13 @@ export default function Pagination({ currentPage, totalPages, basePath = "/blog"
         <Link
           key={page}
           href={`${basePath}?page=${page}`}
-          className={`px-4 py-2 rounded-lg text-sm transition-colors ${
-            page === currentPage
-              ? "bg-primary-500 text-white"
-              : "border border-gray-300 text-gray-600 hover:bg-gray-50"
-          }`}
+          className={btnBase}
+          style={{
+            background: page === currentPage ? "linear-gradient(135deg, #0ea5e9, #3b82f6)" : "transparent",
+            color: page === currentPage ? "#fff" : "#9ca3af",
+            border: page === currentPage ? "none" : "1px solid rgba(56, 189, 248, 0.1)",
+            boxShadow: page === currentPage ? "0 0 12px rgba(14, 165, 233, 0.2)" : "none",
+          }}
         >
           {page}
         </Link>
@@ -39,7 +44,8 @@ export default function Pagination({ currentPage, totalPages, basePath = "/blog"
       {currentPage < totalPages && (
         <Link
           href={`${basePath}?page=${currentPage + 1}`}
-          className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors text-sm"
+          className={`${btnBase} text-gray-400 hover:text-cyan-300`}
+          style={{ border: "1px solid rgba(56, 189, 248, 0.1)" }}
         >
           下一页
         </Link>

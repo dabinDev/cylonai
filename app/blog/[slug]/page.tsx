@@ -44,18 +44,18 @@ export default async function ArticlePage({ params }: PageProps) {
   return (
     <>
       <Header />
-      <main className="pt-24 pb-16">
-        <article className="container-custom mx-auto px-4 md:px-8 max-w-4xl">
-          <nav className="mb-8 text-sm text-gray-500">
-            <Link href="/" className="hover:text-primary-500">首页</Link>
-            <span className="mx-2">/</span>
-            <Link href="/blog" className="hover:text-primary-500">资讯动态</Link>
-            <span className="mx-2">/</span>
-            <span className="text-gray-800">{article.title}</span>
+      <main className="pt-24 pb-16" style={{ background: "#060a14" }}>
+        <article className="max-w-4xl mx-auto px-4 md:px-8">
+          <nav className="mb-8 text-sm">
+            <Link href="/" className="text-gray-500 hover:text-cyan-400 transition-colors">首页</Link>
+            <span className="mx-2 text-gray-700">/</span>
+            <Link href="/blog" className="text-gray-500 hover:text-cyan-400 transition-colors">资讯动态</Link>
+            <span className="mx-2 text-gray-700">/</span>
+            <span className="text-gray-400">{article.title}</span>
           </nav>
 
-          <header className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+          <header className="mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               {article.title}
             </h1>
             <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -67,13 +67,14 @@ export default async function ArticlePage({ params }: PageProps) {
                 })}
               </time>
             </div>
+            <div className="mt-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)" }} />
           </header>
 
           <MarkdownContent content={article.content} />
 
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <Link href="/blog" className="text-primary-500 hover:underline">
-              ← 返回文章列表
+          <div className="mt-12 pt-8" style={{ borderTop: "1px solid rgba(56,189,248,0.08)" }}>
+            <Link href="/blog" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+              &larr; 返回文章列表
             </Link>
           </div>
         </article>

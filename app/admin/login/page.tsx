@@ -68,8 +68,8 @@ export default function AdminLoginPage() {
         >
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-12 h-12 flex items-center justify-center mb-4">
-              <Image src="/logo.png" alt="赛隆AI" width={40} height={40} className="object-contain" />
+            <div className="w-14 h-14 flex items-center justify-center mb-4">
+              <Image src="/logo.png" alt="赛隆AI" width={44} height={44} className="object-contain drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]" />
             </div>
             <h1 className="text-xl font-bold text-white">后台管理</h1>
             <p className="text-gray-500 text-sm mt-1">赛隆AI创作平台</p>

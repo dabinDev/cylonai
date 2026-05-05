@@ -42,19 +42,24 @@ export default async function BlogPage({
   return (
     <>
       <Header />
-      <main className="pt-24 pb-16">
-        <div className="container-custom mx-auto px-4 md:px-8">
+      <main className="pt-24 pb-16" style={{ background: "#060a14" }}>
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              资讯<span className="text-gradient">动态</span>
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="w-8 h-px bg-cyan-500/50" />
+              <span className="text-cyan-400/70 text-xs font-medium tracking-[0.2em] uppercase">Articles</span>
+              <span className="w-8 h-px bg-cyan-500/50" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
+              资讯<span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>动态</span>
             </h1>
-            <p className="text-gray-600">了解AI创作领域的最新资讯和技巧</p>
+            <p className="text-gray-500">了解AI创作领域的最新资讯和技巧</p>
           </div>
 
           {articles.length === 0 ? (
-            <div className="text-center py-16 text-gray-400">
+            <div className="text-center py-16 text-gray-500">
               <p className="text-lg">暂无文章</p>
-              <p className="text-sm mt-2">敬请期待...</p>
+              <p className="text-sm mt-2 text-gray-600">敬请期待...</p>
             </div>
           ) : (
             <>

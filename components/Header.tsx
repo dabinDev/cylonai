@@ -38,8 +38,9 @@ export default function Header({ activeTab = "preview", onTabChange }: HeaderPro
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-8 h-8 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-            <Image src="/logo.png" alt="赛隆AI" width={28} height={28} className="object-contain" />
+          <div className="relative w-9 h-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "radial-gradient(circle, rgba(56,189,248,0.3) 0%, transparent 70%)" }} />
+            <Image src="/logo.png" alt="赛隆AI" width={30} height={30} className="object-contain relative z-10 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]" />
           </div>
           <span className="text-lg font-bold text-white tracking-tight">赛隆AI</span>
         </Link>

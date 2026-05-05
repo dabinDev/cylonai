@@ -129,7 +129,10 @@ export default function ServicesSection3D() {
               className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{
                 transitionDelay: `${i * 120}ms`,
-                animation: visible ? `floatCard ${4 + i * 0.7}s ease-in-out infinite` : "none",
+                animationName: visible ? "floatCard" : "none",
+                animationDuration: `${4 + i * 0.7}s`,
+                animationTimingFunction: "ease-in-out",
+                animationIterationCount: "infinite",
                 animationDelay: `${i * 0.4}s`,
               }}
             >
