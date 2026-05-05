@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "用户名或密码错误" }, { status: 401 });
     }
 
-    const token = signToken({ adminId: admin.id, username: admin.username });
+    const token = await signToken({ adminId: admin.id, username: admin.username });
 
     const response = NextResponse.json({ success: true, username: admin.username });
     response.cookies.set("admin_token", token, {

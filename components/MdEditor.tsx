@@ -121,34 +121,36 @@ export default function MdEditor({ value, onChange, placeholder }: MdEditorProps
     return html;
   };
 
+  const toolBtn = "px-2 py-1 text-sm rounded text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors";
+
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
-      <div className="flex items-center gap-1 px-3 py-2 bg-gray-50 border-b border-gray-300 flex-wrap">
-        <button type="button" onClick={() => insertText("**", "**")} className="px-2 py-1 text-sm rounded hover:bg-gray-200 font-bold" title="加粗">B</button>
-        <button type="button" onClick={() => insertText("*", "*")} className="px-2 py-1 text-sm rounded hover:bg-gray-200 italic" title="斜体">I</button>
-        <button type="button" onClick={() => insertText("## ")} className="px-2 py-1 text-sm rounded hover:bg-gray-200" title="标题">H</button>
-        <button type="button" onClick={() => insertText("[", "](url)")} className="px-2 py-1 text-sm rounded hover:bg-gray-200" title="链接">🔗</button>
-        <button type="button" onClick={() => insertText("> ")} className="px-2 py-1 text-sm rounded hover:bg-gray-200" title="引用">❝</button>
-        <button type="button" onClick={() => insertText("`", "`")} className="px-2 py-1 text-sm rounded hover:bg-gray-200" title="代码">&lt;/&gt;</button>
+    <div className="rounded-lg overflow-hidden" style={{ border: "1px solid rgba(56,189,248,0.1)" }}>
+      <div className="flex items-center gap-1 px-3 py-2 flex-wrap" style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid rgba(56,189,248,0.08)" }}>
+        <button type="button" onClick={() => insertText("**", "**")} className={`${toolBtn} font-bold`} title="加粗">B</button>
+        <button type="button" onClick={() => insertText("*", "*")} className={`${toolBtn} italic`} title="斜体">I</button>
+        <button type="button" onClick={() => insertText("## ")} className={toolBtn} title="标题">H</button>
+        <button type="button" onClick={() => insertText("[", "](url)")} className={toolBtn} title="链接">🔗</button>
+        <button type="button" onClick={() => insertText("> ")} className={toolBtn} title="引用">❝</button>
+        <button type="button" onClick={() => insertText("`", "`")} className={toolBtn} title="代码">&lt;/&gt;</button>
 
-        <div className="w-px h-6 bg-gray-300 mx-1" />
+        <div className="w-px h-5 mx-1" style={{ background: "rgba(56,189,248,0.1)" }} />
 
-        <label className="px-2 py-1 text-sm rounded hover:bg-gray-200 cursor-pointer">
+        <label className={`${toolBtn} cursor-pointer`}>
           📷
           <input type="file" accept="image/*" className="hidden" onChange={handleFileInput} />
         </label>
 
-        {uploading && <span className="text-xs text-primary-500">上传中...</span>}
+        {uploading && <span className="text-xs text-cyan-400">上传中...</span>}
 
         <div className="flex-1" />
 
-        <button type="button" onClick={() => setIsPreview(false)} className={`px-3 py-1 text-sm rounded ${!isPreview ? "bg-primary-100 text-primary-700" : "hover:bg-gray-200"}`}>编辑</button>
-        <button type="button" onClick={() => setIsPreview(true)} className={`px-3 py-1 text-sm rounded ${isPreview ? "bg-primary-100 text-primary-700" : "hover:bg-gray-200"}`}>预览</button>
+        <button type="button" onClick={() => setIsPreview(false)} className={`px-3 py-1 text-xs rounded ${!isPreview ? "text-cyan-300 bg-cyan-500/10" : "text-gray-500 hover:text-gray-300"}`}>编辑</button>
+        <button type="button" onClick={() => setIsPreview(true)} className={`px-3 py-1 text-xs rounded ${isPreview ? "text-cyan-300 bg-cyan-500/10" : "text-gray-500 hover:text-gray-300"}`}>预览</button>
       </div>
 
       <div className="min-h-[400px]">
         {isPreview ? (
-          <div className="markdown-body p-4" dangerouslySetInnerHTML={{ __html: renderPreview(value) }} />
+          <div className="markdown-body p-4 text-gray-300" dangerouslySetInnerHTML={{ __html: renderPreview(value) }} />
         ) : (
           <textarea
             ref={textareaRef}
@@ -157,7 +159,8 @@ export default function MdEditor({ value, onChange, placeholder }: MdEditorProps
             onPaste={handlePaste}
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
-            className="w-full h-[400px] p-4 resize-none outline-none font-mono text-sm leading-relaxed"
+            className="w-full h-[400px] p-4 resize-none outline-none font-mono text-sm leading-relaxed text-gray-200"
+            style={{ background: "rgba(255,255,255,0.02)" }}
             placeholder={placeholder || "输入 Markdown 内容... (支持粘贴图片)"}
           />
         )}

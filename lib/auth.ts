@@ -1,20 +1,26 @@
-import jwt from "jsonwebtoken";
+import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = process.env.JWT_SECRET || "cylon-ai-secret-key-change-in-production";
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "cylon-ai-secret-key-change-in-production"
+);
 
-export interface JwtPayload {
+export interface JwtPayload extends JWTPayload {
   adminId: string;
   username: string;
 }
 
-export function signToken(payload: JwtPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "24h" });
+export async function signToken(payload: Omit<JwtPayload, "iat" | "exp">): Promise<string> {
+  return new SignJWT(payload as unknown as JWTPayload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("24h")
+    .sign(JWT_SECRET);
 }
 
-export function verifyToken(token: string): JwtPayload | null {
+export async function verifyToken(token: string): Promise<JwtPayload | null> {
   try {
-    return jwt.verify(token, JWT_SECRET) as JwtPayload;
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload as unknown as JwtPayload;
   } catch {
     return null;
   }
