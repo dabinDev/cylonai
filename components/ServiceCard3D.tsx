@@ -54,7 +54,7 @@ export default function ServiceCard3D({ icon, title, description, features, inde
           backdropFilter: "blur(20px)",
           border: `1px solid ${isHovered ? `${color}30` : "rgba(56, 189, 248, 0.06)"}`,
           boxShadow: isHovered
-            ? `0 0 40px ${color}12, inset 0 1px 0 ${color}08`
+            ? `0 0 50px ${color}20, 0 0 100px ${color}08, inset 0 1px 0 ${color}10`
             : "0 2px 20px rgba(0, 0, 0, 0.15)",
         }}
       >
@@ -71,7 +71,7 @@ export default function ServiceCard3D({ icon, title, description, features, inde
         <div
           className="absolute inset-0 rounded-2xl pointer-events-none transition-opacity duration-300"
           style={{
-            background: `radial-gradient(circle 180px at ${mousePos.x}% ${mousePos.y}%, ${color}08 0%, transparent 70%)`,
+            background: `radial-gradient(circle 250px at ${mousePos.x}% ${mousePos.y}%, ${color}12 0%, ${color}04 40%, transparent 70%)`,
             opacity: isHovered ? 1 : 0,
           }}
         />
@@ -83,7 +83,7 @@ export default function ServiceCard3D({ icon, title, description, features, inde
             style={{
               background: `${color}10`,
               border: `1px solid ${color}18`,
-              boxShadow: isHovered ? `0 0 16px ${color}12` : "none",
+              boxShadow: isHovered ? `0 0 20px ${color}25, 0 0 40px ${color}10` : "none",
             }}
           >
             {icon}

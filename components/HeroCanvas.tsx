@@ -68,7 +68,7 @@ function NebulaLayer({ scrollProgress }: { scrollProgress: number }) {
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 6, 6]} />
-      <meshBasicMaterial color="#4a5568" transparent opacity={0.4} />
+      <meshBasicMaterial color="#6b7b99" transparent opacity={0.5} />
     </instancedMesh>
   );
 }
@@ -132,7 +132,7 @@ function MidLayer({ scrollProgress }: { scrollProgress: number }) {
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial color="#38bdf8" transparent opacity={0.7} />
+      <meshBasicMaterial color="#38bdf8" transparent opacity={0.85} />
     </instancedMesh>
   );
 }
@@ -208,7 +208,7 @@ function CrystalLayer({ scrollProgress, mousePos }: { scrollProgress: number; mo
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <octahedronGeometry args={[1, 0]} />
-      <meshBasicMaterial color="#a5f3fc" transparent opacity={0.9} />
+      <meshBasicMaterial color="#bae6fd" transparent opacity={1} />
     </instancedMesh>
   );
 }
@@ -287,7 +287,7 @@ function ConnectionLines({ scrollProgress }: { scrollProgress: number }) {
 
   return (
     <lineSegments ref={linesRef} geometry={geometry}>
-      <lineBasicMaterial color="#38bdf8" transparent opacity={0.08} />
+      <lineBasicMaterial color="#38bdf8" transparent opacity={0.15} />
     </lineSegments>
   );
 }
@@ -306,10 +306,10 @@ function Scene({ scrollProgress, mousePos }: { scrollProgress: number; mousePos:
 
       <EffectComposer>
         <Bloom
-          intensity={1.5}
-          luminanceThreshold={0.1}
-          luminanceSmoothing={0.9}
-          radius={0.8}
+          intensity={2.0}
+          luminanceThreshold={0.05}
+          luminanceSmoothing={0.8}
+          radius={0.9}
         />
       </EffectComposer>
     </>
