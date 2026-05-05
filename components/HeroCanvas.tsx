@@ -378,28 +378,16 @@ export default function HeroCanvas({ scrollY }: HeroCanvasProps) {
           </h2>
         </div>
 
-        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 animate-slide-up animate-delay-300 leading-relaxed text-center">
+        <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 animate-slide-up animate-delay-300 leading-relaxed text-center">
           一站式AI内容创作服务，涵盖AI短视频、AI短剧、AI语音制作、AI图片生成
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 animate-slide-up animate-delay-400 pointer-events-auto">
-          <a
-            href="#services"
-            className="group relative px-8 py-4 rounded-xl text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, #0ea5e9, #3b82f6, #6366f1)",
-              boxShadow: "0 0 30px rgba(14, 165, 233, 0.3)",
-            }}
-          >
-            <span className="relative z-10">探索平台</span>
-            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-          </a>
-          <a
-            href="#training"
-            className="px-8 py-4 rounded-xl border border-cyan-500/50 text-cyan-300 font-semibold text-lg hover:bg-cyan-500/10 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
-          >
-            加入培训
-          </a>
+        {/* Scroll down hint */}
+        <div className="animate-slide-up animate-delay-400 flex flex-col items-center gap-2">
+          <span className="text-gray-500 text-sm tracking-widest uppercase">Scroll to explore</span>
+          <svg className="w-5 h-5 text-cyan-400/50 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface HeaderProps {
@@ -9,7 +10,7 @@ interface HeaderProps {
 }
 
 const tabs = [
-  { id: "preview", label: "平台预览" },
+  { id: "preview", label: "首页" },
   { id: "services", label: "核心业务" },
   { id: "training", label: "AI培训" },
   { id: "articles", label: "资讯动态" },
@@ -29,52 +30,48 @@ export default function Header({ activeTab = "preview", onTabChange }: HeaderPro
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        background: scrolled ? "rgba(10, 15, 30, 0.85)" : "rgba(10, 15, 30, 0.3)",
-        backdropFilter: "blur(20px)",
-        borderBottom: `1px solid rgba(56, 189, 248, ${scrolled ? 0.15 : 0.05})`,
+        background: scrolled ? "rgba(6, 10, 20, 0.9)" : "rgba(6, 10, 20, 0.2)",
+        backdropFilter: "blur(24px)",
+        borderBottom: `1px solid rgba(56, 189, 248, ${scrolled ? 0.12 : 0.04})`,
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #0ea5e9, #6366f1)", boxShadow: "0 0 15px rgba(14, 165, 233, 0.4)" }}>
-            <span className="text-white font-black text-sm">S</span>
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative w-9 h-9 overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-110" style={{ boxShadow: "0 0 20px rgba(56, 189, 248, 0.3)" }}>
+            <Image src="/logo.jpg" alt="赛隆AI" width={36} height={36} className="object-cover" />
           </div>
           <span className="text-lg font-bold text-white tracking-tight">赛隆AI</span>
         </Link>
 
-        {/* Desktop Nav Tabs */}
-        <nav className="hidden md:flex items-center gap-1 bg-white/5 rounded-xl p-1 border border-white/5">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onTabChange?.(tab.id)}
-              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+              className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-cyan-500/20 text-cyan-300 shadow-[0_0_15px_rgba(56,189,248,0.15)]"
-                  : "text-gray-400 hover:text-gray-200 hover:bg-white/5"
+                  ? "text-cyan-300"
+                  : "text-gray-400 hover:text-gray-200"
               }`}
             >
               {tab.label}
+              {activeTab === tab.id && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-cyan-400 rounded-full" />
+              )}
             </button>
           ))}
         </nav>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center">
           <Link
-            href="/admin/login"
-            className="px-5 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors"
+            href="#contact"
+            className="px-5 py-2 rounded-lg text-sm font-medium text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 transition-all duration-300"
           >
-            管理后台
+            联系我们
           </Link>
-          <button
-            onClick={() => onTabChange?.("training")}
-            className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
-            style={{ background: "linear-gradient(135deg, #0ea5e9, #3b82f6)", boxShadow: "0 0 20px rgba(14, 165, 233, 0.3)" }}
-          >
-            加入培训
-          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -95,21 +92,21 @@ export default function Header({ activeTab = "preview", onTabChange }: HeaderPro
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/5" style={{ background: "rgba(10, 15, 30, 0.95)", backdropFilter: "blur(20px)" }}>
+        <div className="md:hidden border-t border-white/5" style={{ background: "rgba(6, 10, 20, 0.95)", backdropFilter: "blur(24px)" }}>
           <nav className="flex flex-col p-4 gap-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => { onTabChange?.(tab.id); setMobileOpen(false); }}
                 className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === tab.id ? "bg-cyan-500/20 text-cyan-300" : "text-gray-400 hover:text-gray-200"
+                  activeTab === tab.id ? "text-cyan-300 bg-cyan-500/10" : "text-gray-400 hover:text-gray-200"
                 }`}
               >
                 {tab.label}
               </button>
             ))}
-            <Link href="/admin/login" className="px-4 py-3 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200" onClick={() => setMobileOpen(false)}>
-              管理后台
+            <Link href="#contact" className="px-4 py-3 rounded-lg text-sm font-medium text-cyan-300" onClick={() => setMobileOpen(false)}>
+              联系我们
             </Link>
           </nav>
         </div>

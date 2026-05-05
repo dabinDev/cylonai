@@ -371,56 +371,44 @@ export default function NeuralTraining() {
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 lg:px-16 w-full py-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 lg:px-16 w-full py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="inline-block mb-5 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm text-cyan-300 text-sm font-medium">
-              NEURAL NEXUS
+            <div className="inline-flex items-center gap-2 mb-5">
+              <span className="w-6 h-px bg-cyan-500/50" />
+              <span className="text-cyan-400/70 text-xs font-medium tracking-[0.2em] uppercase">Training</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-5 leading-tight">
               AI创作培训
               <br />
               <span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 开启你的AI创作之旅
               </span>
             </h2>
-            <p className="text-gray-400 mb-8 text-lg leading-relaxed">
+            <p className="text-gray-400 mb-8 text-base leading-relaxed">
               无论你是零基础小白还是资深创作者，我们的AI创作培训课程都能帮助你快速掌握前沿AI工具，
               提升创作效率10倍以上。
             </p>
-            <ul className="space-y-4 mb-10">
+            <ul className="space-y-3 mb-10">
               {[
                 "系统化课程体系，零基础也能上手",
                 "实战项目驱动，学完即可产出",
                 "导师1对1答疑，全程陪伴成长",
                 "终身社群服务，资源共享互助",
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-gray-300">
-                  <div className="w-7 h-7 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0">
-                    <svg className="w-4 h-4 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
+                <li key={item} className="flex items-center gap-3 text-gray-400 text-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/60 shrink-0" />
                   {item}
                 </li>
               ))}
             </ul>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="#contact"
-                className="group relative px-8 py-4 rounded-xl text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:scale-105 text-center"
-                style={{ background: "linear-gradient(135deg, #0ea5e9, #3b82f6, #6366f1)", boxShadow: "0 0 30px rgba(14, 165, 233, 0.3)" }}
-              >
-                <span className="relative z-10">立即报名</span>
-                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-              </Link>
-              <Link
-                href="/blog"
-                className="px-8 py-4 rounded-xl border border-cyan-500/50 text-cyan-300 font-semibold text-lg hover:bg-cyan-500/10 transition-all duration-300 hover:scale-105 text-center backdrop-blur-sm"
-              >
-                了解更多
-              </Link>
-            </div>
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 transition-all duration-300"
+            >
+              了解课程详情
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </Link>
           </div>
 
           {/* Stats card */}
