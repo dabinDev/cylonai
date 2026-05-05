@@ -8,8 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative w-9 h-9 overflow-hidden rounded-lg" style={{ boxShadow: "0 0 15px rgba(56, 189, 248, 0.2)" }}>
-                <Image src="/logo.jpg" alt="赛隆AI" width={36} height={36} className="object-cover" />
+              <div className="relative w-8 h-8 flex items-center justify-center">
+                <Image src="/logo.png" alt="赛隆AI" width={28} height={28} className="object-contain" />
               </div>
               <span className="text-lg font-bold text-white">赛隆AI</span>
             </div>

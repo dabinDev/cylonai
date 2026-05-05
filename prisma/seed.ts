@@ -8,18 +8,18 @@ const adapter = new PrismaBetterSqlite3({ url: dbPath });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const adminPassword = await bcrypt.hash("admin123456", 10);
+  const adminPassword = await bcrypt.hash("123456", 10);
 
   await prisma.admin.upsert({
     where: { username: "admin" },
-    update: {},
+    update: { password: adminPassword },
     create: {
       username: "admin",
       password: adminPassword,
     },
   });
 
-  console.log("Seed completed: admin user created (username: admin, password: admin123456)");
+  console.log("Seed completed: admin user created (username: admin, password: 123456)");
 }
 
 main()
