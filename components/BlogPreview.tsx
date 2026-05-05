@@ -14,23 +14,23 @@ interface BlogPreviewProps {
 
 export default function BlogPreview({ articles }: BlogPreviewProps) {
   return (
-    <section className="section-padding bg-white">
-      <div className="container-custom mx-auto">
-        <div className="flex items-center justify-between mb-10">
+    <section className="py-24 px-4 md:px-8 lg:px-16" style={{ background: "linear-gradient(180deg, #0d1526 0%, #0a0f1e 100%)" }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-2">
-              最新<span className="text-gradient">动态</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-2">
+              最新<span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>动态</span>
             </h2>
-            <p className="text-gray-600">了解AI创作领域的最新资讯和技巧</p>
+            <p className="text-gray-500">了解AI创作领域的最新资讯和技巧</p>
           </div>
-          <Link href="/blog" className="btn-secondary text-sm hidden md:inline-flex">
+          <Link href="/blog" className="hidden md:inline-flex px-5 py-2.5 rounded-lg border border-cyan-500/30 text-cyan-300 text-sm font-medium hover:bg-cyan-500/10 transition-all">
             查看全部
           </Link>
         </div>
 
         {articles.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">
-            <p>暂无文章，敬请期待...</p>
+          <div className="text-center py-16 text-gray-600">
+            <p className="text-lg">暂无文章，敬请期待...</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -38,20 +38,25 @@ export default function BlogPreview({ articles }: BlogPreviewProps) {
               <Link
                 key={article.id}
                 href={`/blog/${article.slug}`}
-                className="card-hover group block"
+                className="group block rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02]"
+                style={{
+                  background: "rgba(15, 23, 42, 0.5)",
+                  border: "1px solid rgba(56, 189, 248, 0.1)",
+                  backdropFilter: "blur(10px)",
+                }}
               >
-                <div className="text-sm text-primary-500 mb-2">
+                <div className="text-sm text-cyan-500 mb-3">
                   {new Date(article.publishedAt).toLocaleDateString("zh-CN")}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors line-clamp-2">
                   {article.title}
                 </h3>
                 {article.excerpt && (
-                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
                     {article.excerpt}
                   </p>
                 )}
-                <div className="mt-4 text-primary-500 text-sm font-medium group-hover:underline">
+                <div className="mt-5 text-cyan-500 text-sm font-medium group-hover:text-cyan-300 transition-colors">
                   阅读全文 →
                 </div>
               </Link>
@@ -60,7 +65,7 @@ export default function BlogPreview({ articles }: BlogPreviewProps) {
         )}
 
         <div className="mt-8 text-center md:hidden">
-          <Link href="/blog" className="btn-secondary text-sm">
+          <Link href="/blog" className="inline-flex px-5 py-2.5 rounded-lg border border-cyan-500/30 text-cyan-300 text-sm font-medium hover:bg-cyan-500/10 transition-all">
             查看全部文章
           </Link>
         </div>

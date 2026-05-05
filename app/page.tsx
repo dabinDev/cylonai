@@ -1,9 +1,4 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import TrainingSection from "@/components/TrainingSection";
-import BlogPreview from "@/components/BlogPreview";
+import HomeContent from "@/components/HomeContent";
 
 async function getLatestArticles() {
   try {
@@ -31,17 +26,5 @@ async function getLatestArticles() {
 
 export default async function HomePage() {
   const articles = await getLatestArticles();
-
-  return (
-    <>
-      <Header />
-      <main>
-        <HeroSection />
-        <ServicesSection />
-        <TrainingSection />
-        <BlogPreview articles={articles} />
-      </main>
-      <Footer />
-    </>
-  );
+  return <HomeContent articles={articles} />;
 }

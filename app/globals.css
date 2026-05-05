@@ -51,6 +51,16 @@
   100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.4); }
 }
 
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -64,7 +74,6 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
-    color: #111827;
   }
 }
 
