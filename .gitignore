@@ -45,3 +45,13 @@ next-env.d.ts
 # uploaded files
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# SSL certificates (private keys must not be committed)
+/nginx/
+*.key
+*.csr
+
+# temp scripts
+/Dockerfile.fixed
+/article-payload.json
+/publish-article.js
