@@ -1,11 +1,18 @@
 import { PrismaClient } from "../app/generated/prisma/client";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import bcrypt from "bcryptjs";
 
-function createPrismaClient() {
+function createPrismaClient(): PrismaClient {
   if (process.env.DATABASE_URL) {
-    return new PrismaClient({
-      datasourceUrl: process.env.DATABASE_URL,
+    const url = new URL(process.env.DATABASE_URL);
+    const adapter = new PrismaMariaDb({
+      host: url.hostname,
+      port: Number(url.port) || 3306,
+      user: url.username,
+      password: url.password,
+      database: url.pathname.slice(1),
     });
+    return new PrismaClient({ adapter });
   }
   // Local dev: use SQLite adapter (eval bypasses bundler static analysis)
   const mod = eval('require')("@prisma/adapter-better-sqlite3");
