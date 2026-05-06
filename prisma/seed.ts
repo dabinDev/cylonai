@@ -3,11 +3,14 @@ import bcrypt from "bcryptjs";
 
 function createPrismaClient() {
   if (process.env.DATABASE_URL) {
-    return new PrismaClient();
+    return new PrismaClient({
+      datasourceUrl: process.env.DATABASE_URL,
+    });
   }
-  // Local dev: use SQLite adapter (dynamic import to avoid errors when not installed)
+  // Local dev: use SQLite adapter
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const path = require("path");
   const dbPath = path.join(process.cwd(), "dev.db");
   const adapter = new PrismaBetterSqlite3({ url: dbPath });

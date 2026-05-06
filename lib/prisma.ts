@@ -6,10 +6,12 @@ const globalForPrisma = globalThis as unknown as {
 
 function createPrismaClient() {
   if (process.env.DATABASE_URL) {
-    // Production: use MySQL via DATABASE_URL (no adapter needed)
-    return new PrismaClient();
+    // Production: pass MySQL URL directly to PrismaClient
+    return new PrismaClient({
+      datasourceUrl: process.env.DATABASE_URL,
+    });
   }
-  // Local dev: use SQLite adapter (dynamic require to avoid errors when not installed)
+  // Local dev: use SQLite adapter
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
