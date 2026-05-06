@@ -1,5 +1,7 @@
 import HomeContent from "@/components/HomeContent";
 
+export const dynamic = "force-dynamic";
+
 async function getLatestArticles() {
   try {
     const { prisma } = await import("@/lib/prisma");

@@ -15,10 +15,12 @@ interface Article {
 export default function AdminArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "published" | "draft">("all");
 
-  async function fetchArticles() {
+  async function fetchArticles(status?: string) {
     try {
-      const res = await fetch("/api/articles?limit=50");
+      const url = status ? `/api/articles?limit=50&status=${status}` : "/api/articles?limit=50";
+      const res = await fetch(url);
       const data = await res.json();
       setArticles(data.articles || []);
     } catch {
@@ -29,8 +31,8 @@ export default function AdminArticlesPage() {
   }
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    fetchArticles(filter === "all" ? undefined : filter);
+  }, [filter]);
 
   async function handleDelete(id: string) {
     if (!confirm("确定删除这篇文章？")) return;
@@ -58,6 +60,23 @@ export default function AdminArticlesPage() {
         >
           + 写文章
         </Link>
+      </div>
+
+      <div className="flex gap-1 mb-6">
+        {([["all", "全部"], ["published", "已发布"], ["draft", "草稿"]] as const).map(([key, label]) => (
+          <button
+            key={key}
+            onClick={() => setFilter(key)}
+            className="px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            style={{
+              background: filter === key ? "rgba(56,189,248,0.12)" : "transparent",
+              color: filter === key ? "#22d3ee" : "#6b7280",
+              border: filter === key ? "1px solid rgba(56,189,248,0.2)" : "1px solid transparent",
+            }}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {loading ? (
@@ -116,6 +135,12 @@ export default function AdminArticlesPage() {
                   <td className="px-5 py-3.5 text-sm text-gray-500">{new Date(article.createdAt).toLocaleDateString("zh-CN")}</td>
                   <td className="px-5 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1">
+                      <Link
+                        href={`/admin/articles/${article.id}/preview`}
+                        className="px-2.5 py-1 text-xs text-blue-400 hover:bg-blue-500/10 rounded transition-colors"
+                      >
+                        预览
+                      </Link>
                       <Link
                         href={`/admin/articles/${article.id}/edit`}
                         className="px-2.5 py-1 text-xs text-cyan-400 hover:bg-cyan-500/10 rounded transition-colors"

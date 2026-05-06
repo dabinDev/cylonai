@@ -64,14 +64,14 @@ export async function POST(request: NextRequest) {
         title,
         slug,
         content,
-        excerpt: excerpt || content.substring(0, 200).replace(/[#*`\n]/g, " ").trim(),
+        excerpt: excerpt || content.substring(0, 180).replace(/[#*`\n]/g, " ").trim(),
         coverImage,
         seoTitle,
         seoDescription,
         seoKeywords,
         status: status || "draft",
         authorId: auth.adminId,
-        publishedAt: status === "published" ? new Date() : new Date(),
+        publishedAt: status === "published" ? new Date() : undefined,
       },
     });
 

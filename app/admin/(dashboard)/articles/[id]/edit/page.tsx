@@ -113,6 +113,14 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
           >
             {saving ? "保存中..." : "发布文章"}
           </button>
+          <a
+            href={`/admin/articles/${id}/preview`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-lg text-sm font-medium text-blue-300 border border-blue-500/30 hover:bg-blue-500/10 transition-colors"
+          >
+            预览
+          </a>
           <button
             type="submit" disabled={saving} onClick={() => { submitStatus.current = "draft"; }}
             className="px-5 py-2.5 rounded-lg text-sm font-medium text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 disabled:opacity-50 transition-colors"
