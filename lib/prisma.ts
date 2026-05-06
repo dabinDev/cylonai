@@ -7,6 +7,11 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient() {
+  if (process.env.DATABASE_URL) {
+    // Production: use MySQL via DATABASE_URL (no adapter needed)
+    return new PrismaClient();
+  }
+  // Local dev: use SQLite adapter
   const dbPath = path.join(process.cwd(), "dev.db");
   const adapter = new PrismaBetterSqlite3({ url: dbPath });
   return new PrismaClient({ adapter });
