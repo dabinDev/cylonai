@@ -11,13 +11,11 @@ function createPrismaClient() {
       datasourceUrl: process.env.DATABASE_URL,
     });
   }
-  // Local dev: use SQLite adapter
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const path = require("path");
+  // Local dev: use SQLite adapter (eval bypasses bundler static analysis)
+  const mod = eval('require')("@prisma/adapter-better-sqlite3");
+  const path = eval('require')("path");
   const dbPath = path.join(process.cwd(), "dev.db");
-  const adapter = new PrismaBetterSqlite3({ url: dbPath });
+  const adapter = new mod.PrismaBetterSqlite3({ url: dbPath });
   return new PrismaClient({ adapter });
 }
 
