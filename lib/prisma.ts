@@ -1,6 +1,4 @@
 import { PrismaClient } from "@/app/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import path from "path";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -11,7 +9,11 @@ function createPrismaClient() {
     // Production: use MySQL via DATABASE_URL (no adapter needed)
     return new PrismaClient();
   }
-  // Local dev: use SQLite adapter
+  // Local dev: use SQLite adapter (dynamic require to avoid errors when not installed)
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const path = require("path");
   const dbPath = path.join(process.cwd(), "dev.db");
   const adapter = new PrismaBetterSqlite3({ url: dbPath });
   return new PrismaClient({ adapter });
