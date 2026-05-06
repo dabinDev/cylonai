@@ -1,44 +1,25 @@
-"use client";
-
-import { use, useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
+import { prisma } from "@/lib/prisma";
 
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  status: string;
-  publishedAt: string | null;
+interface PageProps {
+  params: Promise<{ id: string }>;
 }
 
-export default function PreviewPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const [article, setArticle] = useState<Article | null>(null);
-  const [loading, setLoading] = useState(true);
+export default async function PreviewPage({ params }: PageProps) {
+  const { id } = await params;
 
-  useEffect(() => {
-    fetch(`/api/articles/${id}`)
-      .then((res) => res.json())
-      .then(setArticle)
-      .catch(() => setArticle(null))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  if (loading) {
-    return <div className="text-center py-32 text-gray-500">加载中...</div>;
-  }
-
+  const article = await prisma.article.findUnique({ where: { id } });
   if (!article) {
-    return <div className="text-center py-32 text-gray-500">文章不存在</div>;
+    notFound();
   }
 
   const isDraft = article.status === "draft";
   const dateStr = article.publishedAt
-    ? new Date(article.publishedAt).toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })
+    ? article.publishedAt.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })
     : "未发布";
 
   return (

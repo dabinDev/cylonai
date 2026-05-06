@@ -150,7 +150,7 @@ export default function MdEditor({ value, onChange, placeholder }: MdEditorProps
 
       <div className="min-h-[400px]">
         {isPreview ? (
-          <div className="markdown-body p-4 text-gray-300" dangerouslySetInnerHTML={{ __html: renderPreview(value) }} />
+          <div className="markdown-body p-4 text-gray-200" style={{ background: "rgba(10, 15, 30, 0.6)" }} dangerouslySetInnerHTML={{ __html: renderPreview(value) }} />
         ) : (
           <textarea
             ref={textareaRef}
