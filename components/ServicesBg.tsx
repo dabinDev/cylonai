@@ -24,6 +24,12 @@ export default function ServicesBg() {
     const streams: { x: number; y: number; speed: number; chars: string[]; hue: number }[] = [];
     // Energy rings
     const rings: { cx: number; cy: number; r: number; maxR: number; speed: number; hue: number }[] = [];
+    // Orbital particle rings
+    const orbitals: { cx: number; cy: number; radius: number; particles: { angle: number; speed: number; r: number; hue: number; phase: number }[]; rotation: number; rotSpeed: number }[] = [];
+    // Vortex particles
+    const vortexParticles: { angle: number; dist: number; speed: number; hue: number; r: number; phase: number }[] = [];
+    // Pulse bursts
+    const pulses: { x: number; y: number; r: number; maxR: number; speed: number; hue: number; born: number }[] = [];
 
     function resize() {
       w = canvas!.clientWidth;
@@ -40,6 +46,9 @@ export default function ServicesBg() {
       hexNodes.length = 0;
       streams.length = 0;
       rings.length = 0;
+      orbitals.length = 0;
+      vortexParticles.length = 0;
+      pulses.length = 0;
 
       // Create flowing curves
       for (let i = 0; i < 12; i++) {
@@ -92,7 +101,7 @@ export default function ServicesBg() {
 
       // Create data streams
       for (let i = 0; i < 6; i++) {
-        const chars = "01赛隆AI创作".split("");
+        const chars = "01拾光AIGC创作".split("");
         streams.push({
           x: Math.random() * w,
           y: -Math.random() * h,
@@ -111,6 +120,57 @@ export default function ServicesBg() {
           maxR: 150 + Math.random() * 200,
           speed: 0.3 + Math.random() * 0.5,
           hue: 190 + Math.random() * 30,
+        });
+      }
+
+      // Create orbital particle rings (rotating around section center)
+      const cx = w / 2;
+      const cy = h / 2;
+      for (let ring = 0; ring < 3; ring++) {
+        const radius = 180 + ring * 120;
+        const count = 20 + ring * 15;
+        const particles = [];
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            angle: (i / count) * Math.PI * 2,
+            speed: (0.15 + Math.random() * 0.15) * (ring % 2 === 0 ? 1 : -1),
+            r: 1 + Math.random() * 1.5,
+            hue: 190 + ring * 30 + Math.random() * 20,
+            phase: Math.random() * Math.PI * 2,
+          });
+        }
+        orbitals.push({
+          cx,
+          cy,
+          radius,
+          particles,
+          rotation: 0,
+          rotSpeed: (0.003 + ring * 0.002) * (ring % 2 === 0 ? 1 : -1),
+        });
+      }
+
+      // Create vortex particles spiraling inward
+      for (let i = 0; i < 80; i++) {
+        vortexParticles.push({
+          angle: Math.random() * Math.PI * 2,
+          dist: 50 + Math.random() * Math.min(w, h) * 0.4,
+          speed: 0.3 + Math.random() * 0.6,
+          hue: 190 + Math.random() * 50,
+          r: 0.5 + Math.random() * 1.2,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+
+      // Initial pulse bursts
+      for (let i = 0; i < 4; i++) {
+        pulses.push({
+          x: w * (0.15 + Math.random() * 0.7),
+          y: h * (0.15 + Math.random() * 0.7),
+          r: 0,
+          maxR: 100 + Math.random() * 150,
+          speed: 0.5 + Math.random() * 0.5,
+          hue: 190 + Math.random() * 40,
+          born: -i * 50,
         });
       }
     }
@@ -256,6 +316,112 @@ export default function ServicesBg() {
       centerGlow.addColorStop(1, "rgba(56, 189, 248, 0)");
       ctx!.fillStyle = centerGlow;
       ctx!.fillRect(0, 0, w, h);
+
+      // === NEW: Orbital particle rings ===
+      orbitals.forEach((orbit) => {
+        orbit.rotation += orbit.rotSpeed;
+
+        // Draw faint orbit path
+        ctx!.beginPath();
+        ctx!.arc(orbit.cx, orbit.cy, orbit.radius, 0, Math.PI * 2);
+        ctx!.strokeStyle = `rgba(56, 189, 248, 0.02)`;
+        ctx!.lineWidth = 0.5;
+        ctx!.setLineDash([4, 8]);
+        ctx!.stroke();
+        ctx!.setLineDash([]);
+
+        // Draw orbiting particles
+        orbit.particles.forEach((p) => {
+          p.angle += p.speed * 0.02;
+          const wobble = Math.sin(time * 2 + p.phase) * 6;
+          const r = orbit.radius + wobble;
+          const x = orbit.cx + Math.cos(p.angle + orbit.rotation) * r;
+          const y = orbit.cy + Math.sin(p.angle + orbit.rotation) * r;
+
+          const brightness = 0.5 + Math.sin(time * 3 + p.phase) * 0.3;
+
+          // Particle dot
+          ctx!.beginPath();
+          ctx!.arc(x, y, p.r, 0, Math.PI * 2);
+          ctx!.fillStyle = `hsla(${p.hue}, 80%, 70%, ${0.25 * brightness})`;
+          ctx!.fill();
+
+          // Particle glow
+          const glow = ctx!.createRadialGradient(x, y, 0, x, y, p.r * 6);
+          glow.addColorStop(0, `hsla(${p.hue}, 90%, 70%, ${0.08 * brightness})`);
+          glow.addColorStop(1, `hsla(${p.hue}, 90%, 70%, 0)`);
+          ctx!.beginPath();
+          ctx!.arc(x, y, p.r * 6, 0, Math.PI * 2);
+          ctx!.fillStyle = glow;
+          ctx!.fill();
+        });
+      });
+
+      // === NEW: Vortex particles spiraling around center ===
+      const vx = w / 2, vy = h / 2;
+      vortexParticles.forEach((p) => {
+        p.angle += p.speed * 0.01;
+        p.dist += Math.sin(time + p.phase) * 0.2;
+
+        const x = vx + Math.cos(p.angle) * p.dist;
+        const y = vy + Math.sin(p.angle) * p.dist;
+
+        const brightness = 0.4 + Math.sin(time * 2.5 + p.phase) * 0.3;
+        const trailLen = 3;
+
+        // Draw short trail
+        for (let t = 0; t < trailLen; t++) {
+          const ta = p.angle - t * 0.04;
+          const tx = vx + Math.cos(ta) * p.dist;
+          const ty = vy + Math.sin(ta) * p.dist;
+          const tAlpha = 0.06 * brightness * (1 - t / trailLen);
+          ctx!.beginPath();
+          ctx!.arc(tx, ty, p.r * 0.6, 0, Math.PI * 2);
+          ctx!.fillStyle = `hsla(${p.hue}, 70%, 65%, ${tAlpha})`;
+          ctx!.fill();
+        }
+
+        // Main dot
+        ctx!.beginPath();
+        ctx!.arc(x, y, p.r, 0, Math.PI * 2);
+        ctx!.fillStyle = `hsla(${p.hue}, 80%, 70%, ${0.2 * brightness})`;
+        ctx!.fill();
+      });
+
+      // === NEW: Pulse bursts from random points ===
+      const now = time * 100;
+      pulses.forEach((p) => {
+        p.r += p.speed;
+        if (p.r > p.maxR) {
+          p.r = 0;
+          p.x = w * (0.15 + Math.random() * 0.7);
+          p.y = h * (0.15 + Math.random() * 0.7);
+          p.born = now;
+        }
+        const progress = p.r / p.maxR;
+        const alpha = 0.06 * (1 - progress) * (1 - progress);
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx!.strokeStyle = `hsla(${p.hue}, 80%, 60%, ${alpha})`;
+        ctx!.lineWidth = 1.5 * (1 - progress);
+        ctx!.stroke();
+      });
+
+      // === NEW: Central rotating scanner beam ===
+      const scanAngle = time * 0.4;
+      const scanR = Math.min(w, h) * 0.45;
+      const beamWidth = 0.15;
+      for (let i = 0; i < 60; i++) {
+        const a = scanAngle + (i / 60) * beamWidth;
+        const r = scanR * (i / 60);
+        const sx = cx + Math.cos(a) * r;
+        const sy = cy + Math.sin(a) * r;
+        const alpha = 0.015 * (1 - i / 60);
+        ctx!.beginPath();
+        ctx!.arc(sx, sy, 1.5, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(56, 189, 248, ${alpha})`;
+        ctx!.fill();
+      }
 
       animRef.current = requestAnimationFrame(animate);
     }

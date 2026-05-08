@@ -55,3 +55,9 @@ next-env.d.ts
 /Dockerfile.fixed
 /article-payload.json
 /publish-article.js
+
+# skill files and docs
+/gpt-image-2-skill/
+/gpt-image-2-skill.zip
+*.doc
+*.docx

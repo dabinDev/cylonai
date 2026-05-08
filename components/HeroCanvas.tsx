@@ -354,12 +354,12 @@ export default function HeroCanvas({ scrollY }: HeroCanvasProps) {
       >
         <div className="mb-6 animate-fade-in">
           <div className="inline-block px-5 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm text-cyan-300 text-sm font-medium tracking-wider">
-            AI驱动 &middot; 智能创作 &middot; 无限可能
+            AIGC驱动 &middot; 智能创作 &middot; 无限可能
           </div>
         </div>
 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 animate-slide-up leading-tight text-center">
-          <span className="text-white">赛隆AI创作平台</span>
+          <span className="text-white">拾光AI</span>
         </h1>
 
         <div className="relative mb-8 animate-slide-up animate-delay-200">
@@ -374,12 +374,12 @@ export default function HeroCanvas({ scrollY }: HeroCanvasProps) {
               animation: "gradientFlow 4s linear infinite",
             }}
           >
-            轻松创作优质内容
+            轻松创作优质、高效内容
           </h2>
         </div>
 
         <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 animate-slide-up animate-delay-300 leading-relaxed text-center">
-          一站式AI内容创作服务，涵盖AI短视频、AI短剧、AI语音制作、AI图片生成
+          一站式AIGC内容创作服务，涵盖AIGC短剧、AIGC广告宣传片、AIGC创作培训、AI智能体搭建
         </p>
 
         {/* Scroll down hint */}

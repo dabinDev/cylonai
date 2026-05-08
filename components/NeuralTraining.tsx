@@ -94,7 +94,7 @@ export default function NeuralTraining() {
         }
       }
 
-      const chars = "01赛隆AI创作平台ABCDEF>>>::::";
+      const chars = "01拾光AIGC创作平台ABCDEF>>>::::";
       for (let i = 0; i < Math.floor(width / 18); i++) {
         matrixColumns.push({
           x: i * 18 + 9,
@@ -167,7 +167,7 @@ export default function NeuralTraining() {
 
         if (Math.random() < 0.015) {
           const idx = Math.floor(Math.random() * col.chars.length);
-          col.chars[idx] = "01赛隆AI创作平台ABCDEF>>>::::"[Math.floor(Math.random() * 28)];
+          col.chars[idx] = "01拾光AIGC创作平台ABCDEF>>>::::"[Math.floor(Math.random() * 28)];
         }
       });
 
@@ -379,14 +379,14 @@ export default function NeuralTraining() {
               <span className="text-cyan-400/70 text-xs font-medium tracking-[0.2em] uppercase">Training</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-white mb-5 leading-tight">
-              AI创作培训
+              AIGC创作培训
               <br />
               <span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                开启你的AI创作之旅
+                开启你的AIGC创作之旅
               </span>
             </h2>
             <p className="text-gray-400 mb-8 text-base leading-relaxed">
-              无论你是零基础小白还是资深创作者，我们的AI创作培训课程都能帮助你快速掌握前沿AI工具，
+              无论你是零基础小白还是资深创作者，我们的AIGC创作培训课程都能帮助你快速掌握前沿AIGC工具，
               提升创作效率10倍以上。
             </p>
             <ul className="space-y-3 mb-10">
@@ -423,7 +423,7 @@ export default function NeuralTraining() {
             >
               <div className="text-center mb-6">
                 <div className="text-6xl mb-3">🚀</div>
-                <div className="text-white text-xl font-bold">AI创作培训</div>
+                <div className="text-white text-xl font-bold">AIGC创作培训</div>
                 <div className="text-gray-400 text-sm mt-1">从零到一，掌握全流程</div>
               </div>
               <div className="grid grid-cols-2 gap-4">

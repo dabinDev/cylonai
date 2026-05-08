@@ -3,12 +3,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
-import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "资讯动态",
-  description: "了解AI创作领域的最新资讯、技巧和行业动态 - 赛隆AI创作平台",
+  description: "了解AIGC创作领域的最新资讯、技巧和行业动态 - 拾光AI",
 };
+
+export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 10;
 
@@ -20,22 +21,30 @@ export default async function BlogPage({
   const params = await searchParams;
   const page = parseInt(params.page || "1");
 
-  const [articles, total] = await Promise.all([
-    prisma.article.findMany({
-      where: { status: "published" },
-      orderBy: { publishedAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        excerpt: true,
-        publishedAt: true,
-      },
-    }),
-    prisma.article.count({ where: { status: "published" } }),
-  ]);
+  let articles: { id: string; title: string; slug: string; excerpt: string | null; publishedAt: Date }[] = [];
+  let total = 0;
+
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    [articles, total] = await Promise.all([
+      prisma.article.findMany({
+        where: { status: "published" },
+        orderBy: { publishedAt: "desc" },
+        skip: (page - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          publishedAt: true,
+        },
+      }),
+      prisma.article.count({ where: { status: "published" } }),
+    ]);
+  } catch {
+    // Database unavailable
+  }
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 

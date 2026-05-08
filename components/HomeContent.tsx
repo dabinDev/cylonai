@@ -8,6 +8,7 @@ import NeuralTraining from "./NeuralTraining";
 import BlogPreview from "./BlogPreview";
 import Footer from "./Footer";
 import CustomCursor from "./CustomCursor";
+import ContactModal from "./ContactModal";
 
 interface Article {
   id: string;
@@ -24,6 +25,7 @@ interface HomeContentProps {
 export default function HomeContent({ articles }: HomeContentProps) {
   const [activeTab, setActiveTab] = useState("preview");
   const [scrollY, setScrollY] = useState(0);
+  const [contactOpen, setContactOpen] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,7 +61,8 @@ export default function HomeContent({ articles }: HomeContentProps) {
   return (
     <>
       <CustomCursor />
-      <Header activeTab={activeTab} onTabChange={handleTabChange} />
+      <Header activeTab={activeTab} onTabChange={handleTabChange} onContactClick={() => setContactOpen(true)} />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
       <main ref={mainRef}>
         {/* Hero Section */}

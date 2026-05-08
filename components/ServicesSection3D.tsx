@@ -4,71 +4,72 @@ import { useEffect, useRef, useState } from "react";
 import ServiceCard3D from "./ServiceCard3D";
 import ServicesBg from "./ServicesBg";
 
-const VideoIcon = (
+const AIGCShortDramaIcon = (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
     <polygon points="23 7 16 12 23 17 23 7" />
     <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
   </svg>
 );
 
-const DramaIcon = (
+const AIGCAdIcon = (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-    <polyline points="14 2 14 8 20 8" />
-    <line x1="16" y1="13" x2="8" y2="13" />
-    <line x1="16" y1="17" x2="8" y2="17" />
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+    <line x1="8" y1="21" x2="16" y2="21" />
+    <line x1="12" y1="17" x2="12" y2="21" />
+    <path d="M7 8h2m2 0h2m2 0h2" />
+    <path d="M7 11h10" />
   </svg>
 );
 
-const VoiceIcon = (
+const AIGCTrainingIcon = (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-    <line x1="12" y1="19" x2="12" y2="23" />
-    <line x1="8" y1="23" x2="16" y2="23" />
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
   </svg>
 );
 
-const ImageIcon = (
+const AIAgentIcon = (
   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-    <circle cx="8.5" cy="8.5" r="1.5" />
-    <polyline points="21 15 16 10 5 21" />
+    <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
+    <path d="M6 10h12l1 10H5L6 10z" />
+    <circle cx="9" cy="14" r="1" fill="#34d399" />
+    <circle cx="15" cy="14" r="1" fill="#34d399" />
+    <path d="M9 17h6" />
   </svg>
 );
 
 const services = [
   {
-    icon: VideoIcon,
-    title: "AI短视频",
-    description: "利用AI技术高效批量生成短视频内容，引爆流量。",
-    features: ["一键生成脚本", "智能画面匹配", "批量生产", "多平台适配"],
-    color: "#38bdf8",
-    stats: { label: "日均产出", value: "10万+" },
-  },
-  {
-    icon: DramaIcon,
-    title: "AI短剧",
-    description: "智能剧本解析与自动化画面生成，降低制作门槛。",
+    icon: AIGCShortDramaIcon,
+    title: "AIGC短剧",
+    description: "AI驱动的全流程短剧创作，从剧本到画面一站式生成。",
     features: ["智能剧本创作", "自动化分镜", "角色一致性", "快速迭代"],
-    color: "#818cf8",
+    color: "#38bdf8",
     stats: { label: "制作效率", value: "10x" },
   },
   {
-    icon: VoiceIcon,
-    title: "AI语音制作",
-    description: "多语种、高拟真度的声音克隆与配音服务。",
-    features: ["声音克隆", "多语种支持", "情感表达", "实时生成"],
-    color: "#a78bfa",
-    stats: { label: "支持语种", value: "50+" },
+    icon: AIGCAdIcon,
+    title: "AIGC广告宣传片",
+    description: "高效产出高品质广告与宣传片，降本增效。",
+    features: ["智能脚本生成", "多风格适配", "品牌一致性", "批量产出"],
+    color: "#818cf8",
+    stats: { label: "成本降低", value: "80%" },
   },
   {
-    icon: ImageIcon,
-    title: "AI图片生成",
-    description: "商用级海报、插画与电商主图一键生成。",
-    features: ["商用级品质", "风格多样", "批量生成", "智能编辑"],
+    icon: AIGCTrainingIcon,
+    title: "AIGC创作培训",
+    description: "系统化课程体系，从零掌握AIGC创作全流程。",
+    features: ["实战项目驱动", "导师1对1答疑", "终身社群服务", "资源共享互助"],
+    color: "#a78bfa",
+    stats: { label: "学员好评", value: "98%" },
+  },
+  {
+    icon: AIAgentIcon,
+    title: "AI智能体搭建",
+    description: "定制化AI智能体，赋能企业自动化运营与客户服务。",
+    features: ["定制化开发", "多场景适配", "自主学习进化", "无缝集成部署"],
     color: "#34d399",
-    stats: { label: "生成速度", value: "3s" },
+    stats: { label: "部署周期", value: "7天" },
   },
 ];
 

@@ -3,39 +3,51 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const article = await prisma.article.findUnique({
-    where: { slug, status: "published" },
-  });
+  try {
+    const { slug } = await params;
+    const { prisma } = await import("@/lib/prisma");
+    const article = await prisma.article.findUnique({
+      where: { slug, status: "published" },
+    });
 
-  if (!article) return {};
+    if (!article) return {};
 
-  return {
-    title: article.seoTitle || article.title,
-    description: article.seoDescription || article.excerpt || undefined,
-    keywords: article.seoKeywords?.split(",").map((k) => k.trim()) || undefined,
-    openGraph: {
+    return {
       title: article.seoTitle || article.title,
       description: article.seoDescription || article.excerpt || undefined,
-      type: "article",
-      publishedTime: article.publishedAt.toISOString(),
-    },
-  };
+      keywords: article.seoKeywords?.split(",").map((k) => k.trim()) || undefined,
+      openGraph: {
+        title: article.seoTitle || article.title,
+        description: article.seoDescription || article.excerpt || undefined,
+        type: "article",
+        publishedTime: article.publishedAt.toISOString(),
+      },
+    };
+  } catch {
+    return {};
+  }
 }
 
 export default async function ArticlePage({ params }: PageProps) {
-  const { slug } = await params;
-  const article = await prisma.article.findUnique({
-    where: { slug, status: "published" },
-  });
+  let article;
+  try {
+    const { slug } = await params;
+    const { prisma } = await import("@/lib/prisma");
+    article = await prisma.article.findUnique({
+      where: { slug, status: "published" },
+    });
+  } catch {
+    notFound();
+  }
 
   if (!article) {
     notFound();
