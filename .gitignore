@@ -61,3 +61,6 @@ next-env.d.ts
 /gpt-image-2-skill.zip
 *.doc
 *.docx
+
+# local Superpowers visual brainstorming sessions
+/.superpowers/
