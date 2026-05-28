@@ -4,7 +4,7 @@
 
 **Goal:** Rewrite the current heavy animated homepage into a Tencent Cloud-inspired Cylon AI brand website with product introduction pages and reliable external product entry links.
 
-**Architecture:** Keep Next.js App Router and the existing article system. Replace the homepage client-heavy shell with mostly server-rendered brand sections, move only navigation/contact preview interactions into small client components, and route product cards to local introduction pages that can open implemented product sites in a new tab. Use iframe previews only for domains that allow embedding; `sub.cyroute.cn` must open in a new page because it sends `X-Frame-Options: DENY` and `frame-ancestors 'none'`.
+**Architecture:** Keep Next.js App Router and the existing article system. Replace the homepage client-heavy shell with mostly server-rendered brand sections, move only navigation/contact interactions into small client components, and route product cards to complete local introduction pages. Each product page must explain the product in the main site and then open the implemented product site in a new browser page; no iframe embedding is used.
 
 **Tech Stack:** Next.js 16 App Router, React 19, Tailwind CSS 4, TypeScript, existing Prisma article data, existing static brand assets.
 
@@ -18,7 +18,7 @@ External product pages were checked on 2026-05-29:
 
 - `https://memo.cylonai.cn` returns a page titled `赛隆视创`.
 - `https://new.cyroute.cn` returns `New API` with description: unified AI model aggregation and distribution gateway, OpenAI/Claude/Gemini compatible interfaces, centralized model management.
-- `https://sub.cyroute.cn` returns `Sub2API - AI API Gateway` and exposes site subtitle `AI API Gateway`; response headers include `X-Frame-Options: DENY` and `Content-Security-Policy: frame-ancestors 'none'`, so it cannot be embedded in an iframe.
+- `https://sub.cyroute.cn` returns `Sub2API - AI API Gateway` and exposes site subtitle `AI API Gateway`; response headers include `X-Frame-Options: DENY` and `Content-Security-Policy: frame-ancestors 'none'`. All product sites should open in a new page rather than being embedded.
 
 ## File Structure
 
@@ -71,17 +71,14 @@ Files to create:
 - `components/brand/BrandCta.tsx`  
   Server component for bottom conversion CTA.
 
-- `components/brand/ProductPreviewFrame.tsx`  
-  Client component used only on local product introduction pages when iframe preview is allowed.
-
 - `app/products/memo/page.tsx`  
-  Local introduction page for 赛隆视创, with a product summary and new-tab link to `https://memo.cylonai.cn`.
+  Complete local introduction page for 赛隆视创, with product summary, scenarios, capabilities, and a new-tab link to `https://memo.cylonai.cn`.
 
 - `app/products/cyroute/page.tsx`  
-  Local introduction page for Cyroute, with descriptions of New API and Sub2API and new-tab links to both implemented systems.
+  Complete local introduction page for Cyroute, with descriptions of New API and Sub2API, capability sections, and new-tab links to both implemented systems.
 
 - `app/products/shiguang/page.tsx`  
-  Local introduction page for 拾光视频. If no implemented external URL exists yet, present product introduction and contact CTA only.
+  Complete local introduction page for 拾光视频. If no implemented external URL exists yet, present product introduction, scenarios, capability sections, and contact CTA only.
 
 No plan step should delete these files in the first pass:
 
@@ -971,39 +968,11 @@ git commit -m "feat: restyle shared brand components"
 ## Task 6: Add Product Introduction Pages and Optional Preview Frame
 
 **Files:**
-- Create: `components/brand/ProductPreviewFrame.tsx`
 - Create: `app/products/memo/page.tsx`
 - Create: `app/products/cyroute/page.tsx`
 - Create: `app/products/shiguang/page.tsx`
 
-- [ ] **Step 1: Create optional iframe preview component**
-
-Create `components/brand/ProductPreviewFrame.tsx`:
-
-```tsx
-"use client";
-
-interface ProductPreviewFrameProps {
-  title: string;
-  src: string;
-}
-
-export default function ProductPreviewFrame({ title, src }: ProductPreviewFrameProps) {
-  return (
-    <div className="overflow-hidden rounded-lg border border-[#d8e0ec] bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-[#edf1f7] px-4 py-3">
-        <div className="text-sm font-medium text-[#1f2937]">{title}</div>
-        <a href={src} target="_blank" rel="noreferrer" className="text-sm font-medium text-[#006eff]">
-          新页面打开
-        </a>
-      </div>
-      <iframe title={title} src={src} className="h-[520px] w-full bg-white" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />
-    </div>
-  );
-}
-```
-
-- [ ] **Step 2: Create memo product page**
+- [ ] **Step 1: Create memo product page**
 
 Create `app/products/memo/page.tsx`:
 
@@ -1011,7 +980,6 @@ Create `app/products/memo/page.tsx`:
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProductPreviewFrame from "@/components/brand/ProductPreviewFrame";
 
 export const metadata: Metadata = {
   title: "赛隆视创 - AI 视觉创作与内容生产平台",
@@ -1035,9 +1003,18 @@ export default function MemoProductPage() {
             </a>
           </div>
         </section>
-        <section className="px-4 py-14 md:px-8">
-          <div className="mx-auto max-w-7xl">
-            <ProductPreviewFrame title="赛隆视创页面预览" src="https://memo.cylonai.cn" />
+        <section className="px-4 py-16 md:px-8">
+          <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+            {[
+              ["视觉内容生产", "面向品牌、短视频和营销场景，组织 AI 视觉内容生产流程。"],
+              ["创意素材生成", "帮助团队更快完成创意验证、素材生成和内容迭代。"],
+              ["团队协作入口", "作为赛隆 AI 产品矩阵中的视觉创作入口，后续可承接更多内容工具。"],
+            ].map(([title, desc]) => (
+              <article key={title} className="rounded-lg border border-[#e5eaf3] bg-white p-6">
+                <h2 className="text-xl font-semibold text-[#111827]">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-[#5f6b7a]">{desc}</p>
+              </article>
+            ))}
           </div>
         </section>
       </main>
@@ -1047,7 +1024,7 @@ export default function MemoProductPage() {
 }
 ```
 
-- [ ] **Step 3: Create cyroute product page**
+- [ ] **Step 2: Create cyroute product page**
 
 Create `app/products/cyroute/page.tsx`:
 
@@ -1055,7 +1032,6 @@ Create `app/products/cyroute/page.tsx`:
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProductPreviewFrame from "@/components/brand/ProductPreviewFrame";
 
 export const metadata: Metadata = {
   title: "Cyroute - 企业级 API 中转与模型接入平台",
@@ -1096,15 +1072,24 @@ export default function CyrouteProductPage() {
             <article className="rounded-lg border border-[#e5eaf3] bg-white p-6">
               <h2 className="text-xl font-semibold text-[#111827]">Sub2API</h2>
               <p className="mt-3 text-sm leading-7 text-[#5f6b7a]">
-                AI API Gateway。该站点已禁止 iframe 嵌入，因此主站使用新页面跳转。
+                AI API Gateway。主站提供完整介绍页，真实系统通过新页面打开。
               </p>
             </article>
           </div>
         </section>
 
         <section className="px-4 pb-14 md:px-8">
-          <div className="mx-auto max-w-7xl">
-            <ProductPreviewFrame title="New API 页面预览" src="https://new.cyroute.cn" />
+          <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+            {[
+              ["统一模型接入", "将多类大语言模型能力聚合到统一入口，降低接入和迁移成本。"],
+              ["接口格式兼容", "围绕 OpenAI、Claude、Gemini 等兼容格式组织模型调用。"],
+              ["渠道与用量管理", "支持企业围绕渠道、额度、监控和分发建立更稳定的调用体系。"],
+            ].map(([title, desc]) => (
+              <article key={title} className="rounded-lg border border-[#e5eaf3] bg-white p-6">
+                <h2 className="text-xl font-semibold text-[#111827]">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-[#5f6b7a]">{desc}</p>
+              </article>
+            ))}
           </div>
         </section>
       </main>
@@ -1114,7 +1099,7 @@ export default function CyrouteProductPage() {
 }
 ```
 
-- [ ] **Step 4: Create shiguang product page**
+- [ ] **Step 3: Create shiguang product page**
 
 Create `app/products/shiguang/page.tsx`:
 
@@ -1145,6 +1130,20 @@ export default function ShiguangProductPage() {
             </a>
           </div>
         </section>
+        <section className="px-4 py-16 md:px-8">
+          <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+            {[
+              ["素材整理", "面向视频团队的素材筛选、片段管理和内容组织需求。"],
+              ["智能剪辑", "规划通过 AI 辅助完成节奏、片段和结构建议。"],
+              ["快速成片", "面向短视频和品牌内容生产，帮助团队提升成片效率。"],
+            ].map(([title, desc]) => (
+              <article key={title} className="rounded-lg border border-[#e5eaf3] bg-white p-6">
+                <h2 className="text-xl font-semibold text-[#111827]">{title}</h2>
+                <p className="mt-3 text-sm leading-7 text-[#5f6b7a]">{desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
       </main>
       <Footer />
     </>
@@ -1152,7 +1151,7 @@ export default function ShiguangProductPage() {
 }
 ```
 
-- [ ] **Step 5: Run TypeScript diagnostics**
+- [ ] **Step 4: Run TypeScript diagnostics**
 
 Run:
 
@@ -1162,10 +1161,10 @@ npx tsc --noEmit
 
 Expected: no new TypeScript errors from `app/products/*`.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 5: Commit**
 
 ```powershell
-git add components/brand/ProductPreviewFrame.tsx app/products
+git add app/products
 git commit -m "feat: add product introduction pages"
 ```
 
@@ -1343,8 +1342,10 @@ Expected:
 
 - Homepage uses light enterprise style.
 - Product matrix contains 赛隆视创, Cyroute, 拾光视频.
+- Each product route is a complete local introduction page rather than a missing or thin redirect page.
+- Product pages open implemented external systems in a new browser page.
 - Cyroute page has new-tab links for both `https://new.cyroute.cn` and `https://sub.cyroute.cn`.
-- Sub2API is not embedded in an iframe.
+- No product page embeds an external site with iframe.
 - Contact modal opens and closes on desktop and mobile.
 - No visible dark sci-fi particle/canvas/custom cursor experience remains on homepage.
 
@@ -1366,7 +1367,7 @@ Spec coverage:
 - Brand total website direction: Task 3 and Task 4.
 - Three product directions: Task 1, Task 3, Task 6.
 - New implemented URLs and behavior: Task 1 and Task 6.
-- iframe/new page behavior: Task 6, with Sub2API forced to new page due response headers.
+- Product introduction and new-page behavior: Task 6, with no iframe embedding.
 - Heavy homepage animation removal: Task 4 and Task 8.
 - Blog retention: Task 4, Task 5, Task 7.
 - Contact entry: Task 2, Task 4, Task 5.
@@ -1391,4 +1392,3 @@ Plan complete and saved to `docs/superpowers/plans/2026-05-29-cylon-brand-websit
 **2. Inline Execution** - Execute tasks in this session using executing-plans, batch execution with checkpoints
 
 Which approach?
-
