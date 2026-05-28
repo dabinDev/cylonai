@@ -41,9 +41,9 @@ export default function Header({ activeTab = "preview", onTabChange, onContactCl
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-9 h-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
             <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "radial-gradient(circle, rgba(56,189,248,0.3) 0%, transparent 70%)" }} />
-            <Image src="/cylon.png" alt="拾光AI" width={30} height={30} className="object-contain relative z-10 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]" />
+            <Image src="/brand-icon.png" alt="赛隆AIGC" width={30} height={30} className="object-contain relative z-10 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]" />
           </div>
-          <span className="text-lg font-bold text-white tracking-tight">拾光AI</span>
+          <span className="text-lg font-bold text-white tracking-tight">赛隆AIGC</span>
         </Link>
 
         {/* Desktop Nav */}

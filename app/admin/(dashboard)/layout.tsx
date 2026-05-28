@@ -47,8 +47,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Logo */}
         <div className="p-5" style={{ borderBottom: "1px solid rgba(56, 189, 248, 0.06)" }}>
           <Link href="/" className="flex items-center gap-2.5">
-            <Image src="/logo.png" alt="拾光AI" width={24} height={24} className="object-contain" />
-            <span className="text-sm font-bold text-white">拾光AI后台</span>
+            <Image src="/brand-icon.png" alt="赛隆AIGC" width={24} height={24} className="object-contain" />
+            <span className="text-sm font-bold text-white">赛隆AIGC后台</span>
           </Link>
         </div>
 

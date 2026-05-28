@@ -1,15 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 interface ArticleCardProps {
   title: string;
   slug: string;
   excerpt: string | null;
+  coverImage: string | null;
   publishedAt: string;
 }
 
-export default function ArticleCard({ title, slug, excerpt, publishedAt }: ArticleCardProps) {
+export default function ArticleCard({ title, slug, excerpt, coverImage, publishedAt }: ArticleCardProps) {
   return (
     <Link
       href={`/blog/${slug}`}
@@ -27,6 +29,17 @@ export default function ArticleCard({ title, slug, excerpt, publishedAt }: Artic
         e.currentTarget.style.boxShadow = "none";
       }}
     >
+      {coverImage && (
+        <div className="relative mb-5 aspect-[3/2] overflow-hidden rounded-lg border border-cyan-500/10">
+          <Image
+            src={coverImage}
+            alt={`${title}封面`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+      )}
       <div className="text-xs text-cyan-500/70 mb-3 tracking-wider">
         {new Date(publishedAt).toLocaleDateString("zh-CN", {
           year: "numeric",

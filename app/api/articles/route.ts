@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
         title: true,
         slug: true,
         excerpt: true,
+        coverImage: true,
         status: true,
         publishedAt: true,
         createdAt: true,

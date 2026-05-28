@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
 }
 
 model Admin {
@@ -19,8 +19,8 @@ model Article {
   id             String   @id @default(cuid())
   title          String
   slug           String   @unique
-  content        String
-  excerpt        String?
+  content        String   @db.Text
+  excerpt        String?  @db.Text
   coverImage     String?
   seoTitle       String?
   seoDescription String?

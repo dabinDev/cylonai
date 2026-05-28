@@ -14,10 +14,11 @@ async function getLatestArticles() {
         title: true,
         slug: true,
         excerpt: true,
+        coverImage: true,
         publishedAt: true,
       },
     });
-    return articles.map((a: { id: string; title: string; slug: string; excerpt: string | null; publishedAt: Date }) => ({
+    return articles.map((a: { id: string; title: string; slug: string; excerpt: string | null; coverImage: string | null; publishedAt: Date }) => ({
       ...a,
       publishedAt: a.publishedAt.toISOString(),
     }));

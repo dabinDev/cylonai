@@ -94,7 +94,7 @@ export default function NeuralTraining() {
         }
       }
 
-      const chars = "01拾光AIGC创作平台ABCDEF>>>::::";
+      const chars = "01赛隆AIGC创作平台ABCDEF>>>::::";
       for (let i = 0; i < Math.floor(width / 18); i++) {
         matrixColumns.push({
           x: i * 18 + 9,
@@ -167,7 +167,7 @@ export default function NeuralTraining() {
 
         if (Math.random() < 0.015) {
           const idx = Math.floor(Math.random() * col.chars.length);
-          col.chars[idx] = "01拾光AIGC创作平台ABCDEF>>>::::"[Math.floor(Math.random() * 28)];
+          col.chars[idx] = "01赛隆AIGC创作平台ABCDEF>>>::::"[Math.floor(Math.random() * 28)];
         }
       });
 

@@ -17,21 +17,36 @@ export default function AdminArticlesPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "published" | "draft">("all");
 
-  async function fetchArticles(status?: string) {
-    try {
-      const url = status ? `/api/articles?limit=50&status=${status}` : "/api/articles?limit=50";
-      const res = await fetch(url);
-      const data = await res.json();
-      setArticles(data.articles || []);
-    } catch {
-      console.error("Failed to fetch articles");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    fetchArticles(filter === "all" ? undefined : filter);
+    const controller = new AbortController();
+    let active = true;
+    const status = filter === "all" ? undefined : filter;
+    const url = status ? `/api/articles?limit=50&status=${status}` : "/api/articles?limit=50";
+
+    async function loadArticles() {
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        const data = await res.json();
+        if (active) {
+          setArticles(data.articles || []);
+        }
+      } catch {
+        if (!controller.signal.aborted) {
+          console.error("Failed to fetch articles");
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadArticles();
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
   }, [filter]);
 
   async function handleDelete(id: string) {
@@ -39,7 +54,7 @@ export default function AdminArticlesPage() {
     try {
       const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
       if (res.ok) {
-        setArticles(articles.filter((a) => a.id !== id));
+        setArticles((current) => current.filter((a) => a.id !== id));
       }
     } catch {
       alert("删除失败");
@@ -66,7 +81,12 @@ export default function AdminArticlesPage() {
         {([["all", "全部"], ["published", "已发布"], ["draft", "草稿"]] as const).map(([key, label]) => (
           <button
             key={key}
-            onClick={() => setFilter(key)}
+            onClick={() => {
+              if (key !== filter) {
+                setLoading(true);
+                setFilter(key);
+              }
+            }}
             className="px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
             style={{
               background: filter === key ? "rgba(56,189,248,0.12)" : "transparent",

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
+import Image from "next/image";
 import Link from "next/link";
 
 interface PageProps {
@@ -28,6 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       openGraph: {
         title: article.seoTitle || article.title,
         description: article.seoDescription || article.excerpt || undefined,
+        images: article.coverImage ? [article.coverImage] : undefined,
         type: "article",
         publishedTime: article.publishedAt.toISOString(),
       },
@@ -81,6 +83,19 @@ export default async function ArticlePage({ params }: PageProps) {
             </div>
             <div className="mt-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)" }} />
           </header>
+
+          {article.coverImage && (
+            <div className="relative mb-10 aspect-[3/2] overflow-hidden rounded-lg border border-cyan-500/10">
+              <Image
+                src={article.coverImage}
+                alt={`${article.title}封面`}
+                fill
+                sizes="(min-width: 768px) 896px, 100vw"
+                priority
+                className="object-cover"
+              />
+            </div>
+          )}
 
           <MarkdownContent content={article.content} />
 

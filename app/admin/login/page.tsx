@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState("");
@@ -69,10 +70,10 @@ export default function AdminLoginPage() {
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-14 h-14 flex items-center justify-center mb-4">
-              <Image src="/logo.png" alt="拾光AI" width={44} height={44} className="object-contain drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]" />
+              <Image src="/brand-icon.png" alt="赛隆AIGC" width={44} height={44} className="object-contain drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]" />
             </div>
             <h1 className="text-xl font-bold text-white">后台管理</h1>
-            <p className="text-gray-500 text-sm mt-1">拾光AI</p>
+            <p className="text-gray-500 text-sm mt-1">赛隆AIGC</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -145,9 +146,9 @@ export default function AdminLoginPage() {
 
         {/* Back to site */}
         <div className="text-center mt-6">
-          <a href="/" className="text-gray-600 text-sm hover:text-cyan-400 transition-colors">
+          <Link href="/" className="text-gray-600 text-sm hover:text-cyan-400 transition-colors">
             &larr; 返回首页
-          </a>
+          </Link>
         </div>
       </div>
     </div>

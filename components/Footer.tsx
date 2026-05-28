@@ -9,9 +9,9 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-9 h-9 flex items-center justify-center">
-                <Image src="/cylon.png" alt="拾光AI" width={30} height={30} className="object-contain drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]" />
+                <Image src="/brand-icon.png" alt="赛隆AIGC" width={30} height={30} className="object-contain drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]" />
               </div>
-              <span className="text-lg font-bold text-white">拾光AI</span>
+              <span className="text-lg font-bold text-white">赛隆AIGC</span>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed">
               AIGC驱动的一站式内容创作服务平台
@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/5 mt-12 pt-8 text-center text-sm text-gray-600">
-          <p>&copy; {new Date().getFullYear()} 拾光AI. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} 赛隆AIGC. All rights reserved.</p>
         </div>
       </div>
     </footer>

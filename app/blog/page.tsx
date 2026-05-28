@@ -6,7 +6,7 @@ import Pagination from "@/components/Pagination";
 
 export const metadata: Metadata = {
   title: "资讯动态",
-  description: "了解AIGC创作领域的最新资讯、技巧和行业动态 - 拾光AI",
+  description: "了解AIGC创作领域的最新资讯、技巧和行业动态 - 赛隆AIGC",
 };
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ export default async function BlogPage({
   const params = await searchParams;
   const page = parseInt(params.page || "1");
 
-  let articles: { id: string; title: string; slug: string; excerpt: string | null; publishedAt: Date }[] = [];
+  let articles: { id: string; title: string; slug: string; excerpt: string | null; coverImage: string | null; publishedAt: Date }[] = [];
   let total = 0;
 
   try {
@@ -37,6 +37,7 @@ export default async function BlogPage({
           title: true,
           slug: true,
           excerpt: true,
+          coverImage: true,
           publishedAt: true,
         },
       }),
@@ -79,6 +80,7 @@ export default async function BlogPage({
                     title={article.title}
                     slug={article.slug}
                     excerpt={article.excerpt}
+                    coverImage={article.coverImage}
                     publishedAt={article.publishedAt.toISOString()}
                   />
                 ))}

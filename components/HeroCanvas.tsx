@@ -9,6 +9,15 @@ interface HeroCanvasProps {
   scrollY: number;
 }
 
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+function centeredRandom(seed: number) {
+  return seededRandom(seed) - 0.5;
+}
+
 // Deep nebula layer - slow gray particles
 function NebulaLayer({ scrollProgress }: { scrollProgress: number }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
@@ -18,18 +27,18 @@ function NebulaLayer({ scrollProgress }: { scrollProgress: number }) {
   const particles = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 40;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 30;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
+      arr[i * 3] = centeredRandom(i * 3 + 1) * 40;
+      arr[i * 3 + 1] = centeredRandom(i * 3 + 2) * 30;
+      arr[i * 3 + 2] = centeredRandom(i * 3 + 3) * 20 - 10;
     }
     return arr;
   }, []);
 
   const speeds = useMemo(() => {
-    return Array.from({ length: count }, () => ({
-      x: (Math.random() - 0.5) * 0.003,
-      y: (Math.random() - 0.5) * 0.003,
-      phase: Math.random() * Math.PI * 2,
+    return Array.from({ length: count }, (_, i) => ({
+      x: centeredRandom(i * 3 + 1001) * 0.003,
+      y: centeredRandom(i * 3 + 1002) * 0.003,
+      phase: seededRandom(i * 3 + 1003) * Math.PI * 2,
     }));
   }, []);
 
@@ -82,19 +91,19 @@ function MidLayer({ scrollProgress }: { scrollProgress: number }) {
   const particles = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 30;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 15 - 5;
+      arr[i * 3] = centeredRandom(i * 3 + 2001) * 30;
+      arr[i * 3 + 1] = centeredRandom(i * 3 + 2002) * 20;
+      arr[i * 3 + 2] = centeredRandom(i * 3 + 2003) * 15 - 5;
     }
     return arr;
   }, []);
 
   const speeds = useMemo(() => {
-    return Array.from({ length: count }, () => ({
-      x: (Math.random() - 0.5) * 0.008,
-      y: (Math.random() - 0.5) * 0.008,
-      phase: Math.random() * Math.PI * 2,
-      brightness: Math.random() * 0.5 + 0.5,
+    return Array.from({ length: count }, (_, i) => ({
+      x: centeredRandom(i * 4 + 3001) * 0.008,
+      y: centeredRandom(i * 4 + 3002) * 0.008,
+      phase: seededRandom(i * 4 + 3003) * Math.PI * 2,
+      brightness: seededRandom(i * 4 + 3004) * 0.5 + 0.5,
     }));
   }, []);
 
@@ -147,18 +156,18 @@ function CrystalLayer({ scrollProgress, mousePos }: { scrollProgress: number; mo
   const particles = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 25;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 18;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      arr[i * 3] = centeredRandom(i * 3 + 4001) * 25;
+      arr[i * 3 + 1] = centeredRandom(i * 3 + 4002) * 18;
+      arr[i * 3 + 2] = centeredRandom(i * 3 + 4003) * 8;
     }
     return arr;
   }, []);
 
   const speeds = useMemo(() => {
-    return Array.from({ length: count }, () => ({
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.01 + 0.005,
-      brightness: Math.random() * 0.5 + 0.5,
+    return Array.from({ length: count }, (_, i) => ({
+      phase: seededRandom(i * 3 + 5001) * Math.PI * 2,
+      speed: seededRandom(i * 3 + 5002) * 0.01 + 0.005,
+      brightness: seededRandom(i * 3 + 5003) * 0.5 + 0.5,
     }));
   }, []);
 
@@ -244,17 +253,18 @@ function ConnectionLines({ scrollProgress }: { scrollProgress: number }) {
   const linesRef = useRef<THREE.LineSegments>(null);
   const lineCount = 200;
 
-  const geometry = useMemo(() => {
+  const { geometry, positions } = useMemo(() => {
+    const linePositions = new Float32Array(lineCount * 6);
     const geo = new THREE.BufferGeometry();
-    const positions = new Float32Array(lineCount * 6);
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return geo;
+    geo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+    return { geometry: geo, positions: linePositions };
   }, []);
 
+  // Three.js BufferGeometry positions are intentionally mutated per frame.
+  /* eslint-disable react-hooks/immutability */
   useFrame(({ clock }) => {
     if (!linesRef.current) return;
     const t = clock.getElapsedTime();
-    const positions = geometry.attributes.position.array as Float32Array;
     const convergence = Math.min(1, scrollProgress * 2);
 
     for (let i = 0; i < lineCount; i++) {
@@ -282,8 +292,10 @@ function ConnectionLines({ scrollProgress }: { scrollProgress: number }) {
       positions[i * 6 + 4] = y2;
       positions[i * 6 + 5] = 0;
     }
-    geometry.attributes.position.needsUpdate = true;
+    const positionAttribute = linesRef.current.geometry.getAttribute("position") as THREE.BufferAttribute;
+    positionAttribute.needsUpdate = true;
   });
+  /* eslint-enable react-hooks/immutability */
 
   return (
     <lineSegments ref={linesRef} geometry={geometry}>
@@ -359,7 +371,7 @@ export default function HeroCanvas({ scrollY }: HeroCanvasProps) {
         </div>
 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 animate-slide-up leading-tight text-center">
-          <span className="text-white">拾光AI</span>
+          <span className="text-white">赛隆AIGC</span>
         </h1>
 
         <div className="relative mb-8 animate-slide-up animate-delay-200">

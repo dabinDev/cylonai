@@ -101,7 +101,7 @@ export default function ServicesBg() {
 
       // Create data streams
       for (let i = 0; i < 6; i++) {
-        const chars = "01拾光AIGC创作".split("");
+        const chars = "01赛隆AIGC创作".split("");
         streams.push({
           x: Math.random() * w,
           y: -Math.random() * h,

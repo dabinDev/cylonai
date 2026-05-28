@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface Article {
@@ -5,6 +6,7 @@ interface Article {
   title: string;
   slug: string;
   excerpt: string | null;
+  coverImage: string | null;
   publishedAt: string;
 }
 
@@ -45,6 +47,17 @@ export default function BlogPreview({ articles }: BlogPreviewProps) {
                   backdropFilter: "blur(10px)",
                 }}
               >
+                {article.coverImage && (
+                  <div className="relative mb-5 aspect-[3/2] overflow-hidden rounded-lg border border-cyan-500/10">
+                    <Image
+                      src={article.coverImage}
+                      alt={`${article.title}封面`}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
                 <div className="text-sm text-cyan-500 mb-3">
                   {new Date(article.publishedAt).toLocaleDateString("zh-CN")}
                 </div>
