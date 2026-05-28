@@ -4,19 +4,19 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://cylonai.cn"),
   title: {
-    default: "赛隆AIGC - 轻松创作优质、高效内容",
-    template: "%s | 赛隆AIGC",
+    default: "赛隆 AI - AI 产品矩阵与企业级模型接入服务",
+    template: "%s | 赛隆 AI",
   },
   description:
-    "赛隆AIGC内容创作，一站式AIGC内容创作服务，涵盖AIGC短剧、AIGC广告宣传片、AIGC创作培训、AI智能体搭建。",
-  keywords: ["AIGC", "AIGC短剧", "AIGC广告", "AI智能体", "AIGC培训", "赛隆AIGC"],
+    "赛隆 AI 提供 AI 视觉创作、AI 视频剪辑、企业级 API 中转与模型接入服务，连接内容生产与企业 AI 基础能力。",
+  keywords: ["赛隆 AI", "赛隆视创", "Cyroute", "AI 视频剪辑", "API 中转", "模型接入"],
   icons: {
     icon: "/brand-icon.png",
     apple: "/brand-icon.png",
   },
   openGraph: {
-    title: "赛隆AIGC - 轻松创作优质、高效内容",
-    description: "一站式AIGC内容创作服务平台",
+    title: "赛隆 AI - AI 产品矩阵与企业级模型接入服务",
+    description: "连接 AI 内容创作、视频生产与企业级模型接入服务。",
     type: "website",
     locale: "zh_CN",
     images: ["/brand-icon.png"],

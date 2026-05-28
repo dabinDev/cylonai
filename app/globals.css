@@ -68,12 +68,14 @@
 
   body {
     color: var(--color-foreground);
+    background: #ffffff;
     antialiased: true;
     font-family: var(--font-sans);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
+    letter-spacing: 0;
   }
 }
 

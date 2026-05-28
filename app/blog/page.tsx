@@ -6,7 +6,7 @@ import Pagination from "@/components/Pagination";
 
 export const metadata: Metadata = {
   title: "资讯动态",
-  description: "了解AIGC创作领域的最新资讯、技巧和行业动态 - 赛隆AIGC",
+  description: "了解 AI 产品、内容创作和模型接入领域的最新资讯 - 赛隆 AI",
 };
 
 export const dynamic = "force-dynamic";
@@ -52,28 +52,22 @@ export default async function BlogPage({
   return (
     <>
       <Header />
-      <main className="pt-24 pb-16" style={{ background: "#060a14" }}>
-        <div className="max-w-6xl mx-auto px-4 md:px-8">
+      <main className="bg-[#f5f8fc] px-4 py-16 md:px-8">
+        <div className="mx-auto max-w-7xl">
           <div className="mb-10">
-            <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-8 h-px bg-cyan-500/50" />
-              <span className="text-cyan-400/70 text-xs font-medium tracking-[0.2em] uppercase">Articles</span>
-              <span className="w-8 h-px bg-cyan-500/50" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
-              资讯<span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>动态</span>
-            </h1>
-            <p className="text-gray-500">了解AI创作领域的最新资讯和技巧</p>
+            <p className="text-sm font-semibold text-[#006eff]">资讯动态</p>
+            <h1 className="mt-3 text-3xl font-semibold text-[#111827] md:text-4xl">赛隆 AI 资讯动态</h1>
+            <p className="mt-4 text-[#5f6b7a]">了解 AI 产品、内容创作和模型接入领域的最新资讯。</p>
           </div>
 
           {articles.length === 0 ? (
-            <div className="text-center py-16 text-gray-500">
+            <div className="rounded-lg border border-[#e5eaf3] bg-white py-16 text-center text-[#5f6b7a]">
               <p className="text-lg">暂无文章</p>
-              <p className="text-sm mt-2 text-gray-600">敬请期待...</p>
+              <p className="mt-2 text-sm">敬请期待...</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {articles.map((article) => (
                   <ArticleCard
                     key={article.id}
