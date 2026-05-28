@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -25,9 +26,9 @@ export default function ShiguangProductPage() {
             <p className="mt-5 max-w-3xl text-base leading-8 text-[#5f6b7a]">
               拾光视频面向短视频和品牌内容生产，规划提供素材整理、智能剪辑和快速成片能力。产品官网上线前，主站先保留介绍页和咨询入口。
             </p>
-            <a href="/#contact" className="mt-8 inline-flex h-11 items-center rounded-md bg-[#006eff] px-6 text-sm font-medium text-white hover:bg-[#005bd1]">
+            <Link href="/#contact" className="mt-8 inline-flex h-11 items-center rounded-md bg-[#006eff] px-6 text-sm font-medium text-white hover:bg-[#005bd1]">
               联系了解
-            </a>
+            </Link>
           </div>
         </section>
         <section className="px-4 py-16 md:px-8">
