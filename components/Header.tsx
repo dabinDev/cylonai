@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { brandNavItems } from "./brand/siteData";
 
 interface HeaderProps {
   activeTab?: string;
@@ -10,104 +11,84 @@ interface HeaderProps {
   onContactClick?: () => void;
 }
 
-const tabs = [
-  { id: "preview", label: "首页" },
-  { id: "services", label: "核心业务" },
-  { id: "training", label: "AI培训" },
-  { id: "articles", label: "资讯动态" },
-];
-
-export default function Header({ activeTab = "preview", onTabChange, onContactClick }: HeaderProps) {
+export default function Header({ onContactClick }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: scrolled ? "rgba(6, 10, 20, 0.9)" : "rgba(6, 10, 20, 0.2)",
-        backdropFilter: "blur(24px)",
-        borderBottom: `1px solid rgba(56, 189, 248, ${scrolled ? 0.12 : 0.04})`,
-      }}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-9 h-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "radial-gradient(circle, rgba(56,189,248,0.3) 0%, transparent 70%)" }} />
-            <Image src="/brand-icon.png" alt="赛隆AIGC" width={30} height={30} className="object-contain relative z-10 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]" />
-          </div>
-          <span className="text-lg font-bold text-white tracking-tight">赛隆AIGC</span>
+    <header className="sticky top-0 z-50 border-b border-[#e5eaf3] bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
+        <Link href="/" className="flex items-center gap-3" aria-label="赛隆 AI 首页">
+          <Image src="/brand-icon.png" alt="赛隆 AI" width={32} height={32} className="h-8 w-8 object-contain" />
+          <span className="text-lg font-semibold tracking-tight text-[#1f2937]">赛隆 AI</span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => onTabChange?.(tab.id)}
-              className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                activeTab === tab.id
-                  ? "text-cyan-300"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              {tab.label}
-              {activeTab === tab.id && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-cyan-400 rounded-full" />
-              )}
-            </button>
+        <nav className="hidden items-center gap-7 md:flex" aria-label="主导航">
+          {brandNavItems.map((item) => (
+            <Link key={item.href} href={item.href} className="text-sm font-medium text-[#4b5563] transition-colors hover:text-[#006eff]">
+              {item.label}
+            </Link>
           ))}
+          <Link href="/blog" className="text-sm font-medium text-[#4b5563] transition-colors hover:text-[#006eff]">
+            文章
+          </Link>
         </nav>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center">
+        <div className="hidden items-center gap-3 md:flex">
           <button
-            onClick={() => onContactClick?.()}
-            className="px-5 py-2 rounded-lg text-sm font-medium text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 transition-all duration-300"
+            type="button"
+            onClick={onContactClick}
+            className="rounded-md bg-[#006eff] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#005bd1]"
           >
             联系我们
           </button>
         </div>
 
-        {/* Mobile toggle */}
         <button
-          className="md:hidden p-2 text-gray-400"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          type="button"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#d8e0ec] text-[#1f2937] md:hidden"
+          onClick={() => setMobileOpen((open) => !open)}
+          aria-label={mobileOpen ? "关闭菜单" : "打开菜单"}
+          aria-expanded={mobileOpen}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span className="sr-only">{mobileOpen ? "关闭菜单" : "打开菜单"}</span>
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             {mobileOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
             )}
           </svg>
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/5" style={{ background: "rgba(6, 10, 20, 0.95)", backdropFilter: "blur(24px)" }}>
-          <nav className="flex flex-col p-4 gap-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => { onTabChange?.(tab.id); setMobileOpen(false); }}
-                className={`text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === tab.id ? "text-cyan-300 bg-cyan-500/10" : "text-gray-400 hover:text-gray-200"
-                }`}
+        <div className="border-t border-[#e5eaf3] bg-white md:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col px-4 py-3" aria-label="移动端导航">
+            {brandNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-md px-2 py-3 text-sm font-medium text-[#4b5563] hover:bg-[#f5f8fc] hover:text-[#006eff]"
+                onClick={() => setMobileOpen(false)}
               >
-                {tab.label}
-              </button>
+                {item.label}
+              </Link>
             ))}
-            <button className="px-4 py-3 rounded-lg text-sm font-medium text-cyan-300 text-left" onClick={() => { setMobileOpen(false); onContactClick?.(); }}>
+            <Link
+              href="/blog"
+              className="rounded-md px-2 py-3 text-sm font-medium text-[#4b5563] hover:bg-[#f5f8fc] hover:text-[#006eff]"
+              onClick={() => setMobileOpen(false)}
+            >
+              文章
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                onContactClick?.();
+              }}
+              className="mt-2 rounded-md bg-[#006eff] px-4 py-2.5 text-sm font-medium text-white"
+            >
               联系我们
             </button>
           </nav>
