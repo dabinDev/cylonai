@@ -16,72 +16,39 @@ interface BlogPreviewProps {
 
 export default function BlogPreview({ articles }: BlogPreviewProps) {
   return (
-    <section className="py-24 px-4 md:px-8 lg:px-16" style={{ background: "linear-gradient(180deg, #0d1526 0%, #0a0f1e 100%)" }}>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-12">
+    <section id="articles" className="bg-[#f5f8fc] px-4 py-20 md:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-2">
-              最新<span style={{ background: "linear-gradient(90deg, #38bdf8, #818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>动态</span>
-            </h2>
-            <p className="text-gray-500">了解AI创作领域的最新资讯和技巧</p>
+            <p className="text-sm font-semibold text-[#006eff]">资讯动态</p>
+            <h2 className="mt-3 text-3xl font-semibold text-[#111827] md:text-4xl">了解赛隆 AI 的产品与行业实践</h2>
           </div>
-          <Link href="/blog" className="hidden md:inline-flex px-5 py-2.5 rounded-lg border border-cyan-500/30 text-cyan-300 text-sm font-medium hover:bg-cyan-500/10 transition-all">
+          <Link href="/blog" className="inline-flex h-10 items-center justify-center rounded-md border border-[#c8d3e3] bg-white px-4 text-sm font-medium text-[#1f2937] hover:border-[#006eff] hover:text-[#006eff]">
             查看全部
           </Link>
         </div>
 
         {articles.length === 0 ? (
-          <div className="text-center py-16 text-gray-600">
-            <p className="text-lg">暂无文章，敬请期待...</p>
+          <div className="rounded-lg border border-[#e5eaf3] bg-white py-14 text-center text-[#5f6b7a]">
+            暂无文章，敬请期待。
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid gap-5 md:grid-cols-3">
             {articles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/blog/${article.slug}`}
-                className="group block rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02]"
-                style={{
-                  background: "rgba(15, 23, 42, 0.5)",
-                  border: "1px solid rgba(56, 189, 248, 0.1)",
-                  backdropFilter: "blur(10px)",
-                }}
-              >
+              <Link key={article.id} href={`/blog/${article.slug}`} className="group rounded-lg border border-[#e5eaf3] bg-white p-5 transition-shadow hover:shadow-[0_14px_36px_rgba(15,40,80,0.08)]">
                 {article.coverImage && (
-                  <div className="relative mb-5 aspect-[3/2] overflow-hidden rounded-lg border border-cyan-500/10">
-                    <Image
-                      src={article.coverImage}
-                      alt={`${article.title}封面`}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative mb-5 aspect-[3/2] overflow-hidden rounded-md bg-[#eef3fa]">
+                    <Image src={article.coverImage} alt={`${article.title}封面`} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 )}
-                <div className="text-sm text-cyan-500 mb-3">
-                  {new Date(article.publishedAt).toLocaleDateString("zh-CN")}
-                </div>
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors line-clamp-2">
-                  {article.title}
-                </h3>
-                {article.excerpt && (
-                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                )}
-                <div className="mt-5 text-cyan-500 text-sm font-medium group-hover:text-cyan-300 transition-colors">
-                  阅读全文 →
-                </div>
+                <div className="text-xs text-[#7b8794]">{new Date(article.publishedAt).toLocaleDateString("zh-CN")}</div>
+                <h3 className="mt-3 line-clamp-2 text-lg font-semibold leading-7 text-[#111827] group-hover:text-[#006eff]">{article.title}</h3>
+                {article.excerpt && <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#5f6b7a]">{article.excerpt}</p>}
+                <div className="mt-5 text-sm font-medium text-[#006eff]">阅读全文</div>
               </Link>
             ))}
           </div>
         )}
-
-        <div className="mt-8 text-center md:hidden">
-          <Link href="/blog" className="inline-flex px-5 py-2.5 rounded-lg border border-cyan-500/30 text-cyan-300 text-sm font-medium hover:bg-cyan-500/10 transition-all">
-            查看全部文章
-          </Link>
-        </div>
       </div>
     </section>
   );
