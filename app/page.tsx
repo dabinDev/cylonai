@@ -1,11 +1,12 @@
 import HomeContent from "@/components/HomeContent";
+import { withTimeout } from "@/lib/withTimeout";
 
 export const dynamic = "force-dynamic";
 
 async function getLatestArticles() {
   try {
     const { prisma } = await import("@/lib/prisma");
-    const articles = await prisma.article.findMany({
+    const articles = await withTimeout(prisma.article.findMany({
       where: { status: "published" },
       orderBy: { publishedAt: "desc" },
       take: 3,
@@ -17,7 +18,7 @@ async function getLatestArticles() {
         coverImage: true,
         publishedAt: true,
       },
-    });
+    }), 2500, []);
     return articles.map((a: { id: string; title: string; slug: string; excerpt: string | null; coverImage: string | null; publishedAt: Date }) => ({
       ...a,
       publishedAt: a.publishedAt.toISOString(),

@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
+import { withTimeout } from "@/lib/withTimeout";
 
 export const metadata: Metadata = {
   title: "资讯动态",
@@ -26,7 +27,7 @@ export default async function BlogPage({
 
   try {
     const { prisma } = await import("@/lib/prisma");
-    [articles, total] = await Promise.all([
+    [articles, total] = await withTimeout(Promise.all([
       prisma.article.findMany({
         where: { status: "published" },
         orderBy: { publishedAt: "desc" },
@@ -42,7 +43,7 @@ export default async function BlogPage({
         },
       }),
       prisma.article.count({ where: { status: "published" } }),
-    ]);
+    ]), 2500, [[], 0] as [typeof articles, number]);
   } catch {
     // Database unavailable
   }
