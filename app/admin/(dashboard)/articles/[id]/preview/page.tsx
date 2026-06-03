@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
 import { prisma } from "@/lib/prisma";
 
@@ -23,58 +21,52 @@ export default async function PreviewPage({ params }: PageProps) {
     : "未发布";
 
   return (
-    <>
-      <Header />
-      <main className="pt-24 pb-16" style={{ background: "#060a14" }}>
-        {isDraft && (
-          <div className="max-w-4xl mx-auto px-4 md:px-8 mb-6">
-            <div
-              className="px-4 py-2.5 rounded-lg text-sm text-amber-300"
-              style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.2)" }}
-            >
-              草稿预览 — 此文章尚未发布
-            </div>
-          </div>
-        )}
+    <div>
+      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="admin-page-title">文章预览</h1>
+          <p className="admin-page-subtitle">按当前内容渲染文章正文，便于发布前检查排版。</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/admin/articles" className="admin-button-secondary">
+            返回列表
+          </Link>
+          <Link href={`/admin/articles/${id}/edit`} className="admin-button-primary">
+            编辑文章
+          </Link>
+        </div>
+      </div>
 
-        <article className="max-w-4xl mx-auto px-4 md:px-8">
-          <nav className="mb-8 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-cyan-400 transition-colors">首页</Link>
-            <span className="mx-2 text-gray-700">/</span>
-            <Link href="/admin/articles" className="text-gray-500 hover:text-cyan-400 transition-colors">文章管理</Link>
-            <span className="mx-2 text-gray-700">/</span>
-            <span className="text-gray-400">预览</span>
-          </nav>
+      {isDraft && (
+        <div className="mb-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+          草稿预览：此文章尚未发布，前台访客不可见。
+        </div>
+      )}
 
-          <header className="mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-              {article.title}
-            </h1>
-            <div className="flex items-center gap-4 text-sm text-gray-500">
-              <time>{dateStr}</time>
-            </div>
-            <div className="mt-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)" }} />
-          </header>
-
-          <MarkdownContent content={article.content} />
-
-          <div className="mt-12 pt-8" style={{ borderTop: "1px solid rgba(56,189,248,0.08)" }}>
-            <Link href="/admin/articles" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
-              &larr; 返回文章列表
+      <article className="admin-surface mx-auto max-w-4xl rounded-lg bg-white">
+        <header className="border-b border-[#e5eaf3] px-6 py-8 md:px-10">
+          <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-[#64748b]">
+            <Link href="/admin/articles" className="font-medium text-[#006eff] hover:text-[#005bd1]">
+              文章管理
             </Link>
+            <span>/</span>
+            <span>预览</span>
           </div>
-        </article>
-      </main>
+          <h2 className="text-3xl font-bold leading-tight text-[#111827] md:text-4xl">
+            {article.title}
+          </h2>
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-[#64748b]">
+            <time>{dateStr}</time>
+            <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${isDraft ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>
+              {isDraft ? "草稿" : "已发布"}
+            </span>
+          </div>
+        </header>
 
-      <Link
-        href={`/admin/articles/${id}/edit`}
-        className="fixed bottom-8 right-8 px-5 py-2.5 rounded-lg text-sm font-medium text-white shadow-lg transition-all hover:scale-105 z-50"
-        style={{ background: "linear-gradient(135deg, #0ea5e9, #3b82f6)", boxShadow: "0 4px 20px rgba(14,165,233,0.3)" }}
-      >
-        编辑文章
-      </Link>
-
-      <Footer />
-    </>
+        <div className="px-6 py-8 md:px-10">
+          <MarkdownContent content={article.content} />
+        </div>
+      </article>
+    </div>
   );
 }

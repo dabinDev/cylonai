@@ -7,7 +7,7 @@ async function getLatestArticles() {
   try {
     const { prisma } = await import("@/lib/prisma");
     const articles = await withTimeout(prisma.article.findMany({
-      where: { status: "published" },
+      where: { status: "published", featured: true },
       orderBy: { publishedAt: "desc" },
       take: 3,
       select: {
@@ -23,7 +23,8 @@ async function getLatestArticles() {
       ...a,
       publishedAt: a.publishedAt.toISOString(),
     }));
-  } catch {
+  } catch (error) {
+    console.error("[homepage] Failed to load articles:", error);
     return [];
   }
 }

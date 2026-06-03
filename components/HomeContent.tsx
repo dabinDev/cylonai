@@ -1,10 +1,8 @@
-"use client";
-
-import { useState } from "react";
 import Header from "./Header";
-import ContactModal from "./ContactModal";
+import HomeContactController from "./HomeContactController";
 import BrandHero from "./brand/BrandHero";
 import ProductMatrix from "./brand/ProductMatrix";
+import MemoShowcase from "./brand/MemoShowcase";
 import SolutionsSection from "./brand/SolutionsSection";
 import AdvantagesSection from "./brand/AdvantagesSection";
 import BrandCta from "./brand/BrandCta";
@@ -25,15 +23,14 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ articles }: HomeContentProps) {
-  const [contactOpen, setContactOpen] = useState(false);
-
   return (
     <>
-      <Header onContactClick={() => setContactOpen(true)} />
-      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+      <Header />
+      <HomeContactController />
       <main>
         <BrandHero />
         <ProductMatrix />
+        <MemoShowcase />
         <SolutionsSection />
         <AdvantagesSection />
         <BlogPreview articles={articles} />

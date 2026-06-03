@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /studio
 
 Sitemap: https://cylonai.cn/sitemap.xml

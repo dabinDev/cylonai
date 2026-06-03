@@ -29,6 +29,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
+*.out.log
+*.err.log
+
+# local generated artifacts
+/output/
+/tmp-deploy-*.tar.gz
+admin-login-visible-result.png
+XTerminal-*-installer.exe
+tmp-*-image-generate.sh
 
 # env files (can opt-in for committing if needed)
 .env*

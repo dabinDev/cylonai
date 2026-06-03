@@ -4,9 +4,8 @@ import { useState, useEffect, useRef, use } from "react";
 import { useRouter } from "next/navigation";
 import MdEditor from "@/components/MdEditor";
 
-const inputCls = "w-full px-4 py-2.5 rounded-lg text-sm text-white outline-none transition-colors";
-const inputStyle = { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(56,189,248,0.1)" };
-const labelCls = "block text-xs font-medium text-gray-500 mb-1.5 tracking-wider uppercase";
+const labelCls = "admin-label";
+const textareaCls = "admin-input resize-none";
 
 export default function EditArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -57,59 +56,72 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
   }
 
   if (loading) {
-    return <div className="text-center py-16 text-gray-500">加载中...</div>;
+    return <div className="admin-surface rounded-lg py-16 text-center text-sm text-[#64748b]">加载中...</div>;
   }
 
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-xl font-bold text-white">编辑文章</h1>
-        <p className="text-gray-500 text-sm mt-1">修改文章内容</p>
+        <h1 className="admin-page-title">编辑文章</h1>
+        <p className="admin-page-subtitle">维护文章内容、发布状态和搜索展示信息。</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="admin-surface rounded-lg p-6">
+          <div className="mb-5 flex items-center justify-between border-b border-[#e5eaf3] pb-4">
+            <div>
+              <h2 className="text-sm font-semibold text-[#111827]">基础信息</h2>
+              <p className="mt-1 text-xs text-[#64748b]">标题和访问路径会影响文章列表与分享链接。</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className={labelCls}>文章标题 *</label>
-            <input type="text" value={form.title} onChange={(e) => updateField("title", e.target.value)} className={inputCls} style={inputStyle} required />
+            <input type="text" value={form.title} onChange={(e) => updateField("title", e.target.value)} className="admin-input" required />
           </div>
           <div>
             <label className={labelCls}>URL Slug *</label>
-            <input type="text" value={form.slug} onChange={(e) => updateField("slug", e.target.value)} className={`${inputCls} font-mono`} style={inputStyle} required />
+            <input type="text" value={form.slug} onChange={(e) => updateField("slug", e.target.value)} className="admin-input font-mono" required />
+          </div>
           </div>
         </div>
 
-        <div>
-          <label className={labelCls}>文章内容 *</label>
+        <div className="admin-surface rounded-lg p-6">
+          <div className="mb-4">
+            <label className={labelCls}>文章内容 *</label>
+            <p className="text-xs text-[#64748b]">支持 Markdown、粘贴图片和拖拽上传。</p>
+          </div>
           <MdEditor value={form.content} onChange={(val) => updateField("content", val)} />
         </div>
 
-        <div>
+        <div className="admin-surface rounded-lg p-6">
           <label className={labelCls}>摘要</label>
-          <textarea value={form.excerpt} onChange={(e) => updateField("excerpt", e.target.value)} className={`${inputCls} resize-none h-20`} style={inputStyle} />
+          <textarea value={form.excerpt} onChange={(e) => updateField("excerpt", e.target.value)} className={`${textareaCls} h-24`} />
         </div>
 
-        <div className="rounded-xl p-5 space-y-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(56,189,248,0.06)" }}>
-          <h3 className="text-sm font-medium text-gray-400">SEO 设置</h3>
+        <div className="admin-surface rounded-lg p-6 space-y-4">
+          <div className="border-b border-[#e5eaf3] pb-4">
+            <h3 className="text-sm font-semibold text-[#111827]">SEO 设置</h3>
+            <p className="mt-1 text-xs text-[#64748b]">用于搜索结果和社交分享展示，可按需维护。</p>
+          </div>
           <div>
             <label className={labelCls}>SEO 标题</label>
-            <input type="text" value={form.seoTitle} onChange={(e) => updateField("seoTitle", e.target.value)} className={inputCls} style={inputStyle} />
+            <input type="text" value={form.seoTitle} onChange={(e) => updateField("seoTitle", e.target.value)} className="admin-input" />
           </div>
           <div>
             <label className={labelCls}>SEO 描述</label>
-            <textarea value={form.seoDescription} onChange={(e) => updateField("seoDescription", e.target.value)} className={`${inputCls} resize-none h-14`} style={inputStyle} />
+            <textarea value={form.seoDescription} onChange={(e) => updateField("seoDescription", e.target.value)} className={`${textareaCls} h-20`} />
           </div>
           <div>
             <label className={labelCls}>SEO 关键词</label>
-            <input type="text" value={form.seoKeywords} onChange={(e) => updateField("seoKeywords", e.target.value)} className={inputCls} style={inputStyle} />
+            <input type="text" value={form.seoKeywords} onChange={(e) => updateField("seoKeywords", e.target.value)} className="admin-input" />
           </div>
         </div>
 
-        <div className="flex items-center gap-3 pt-4" style={{ borderTop: "1px solid rgba(56,189,248,0.06)" }}>
+        <div className="flex flex-wrap items-center gap-3 border-t border-[#dbe5f2] pt-5">
           <button
             type="submit" disabled={saving} onClick={() => { submitStatus.current = "published"; }}
-            className="px-5 py-2.5 rounded-lg text-sm font-medium text-white disabled:opacity-50 transition-all hover:scale-[1.02]"
-            style={{ background: "linear-gradient(135deg, #0ea5e9, #3b82f6)", boxShadow: "0 0 15px rgba(14,165,233,0.2)" }}
+            className="admin-button-primary disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "保存中..." : "发布文章"}
           </button>
@@ -117,13 +129,13 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
             href={`/admin/articles/${id}/preview`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-lg text-sm font-medium text-blue-300 border border-blue-500/30 hover:bg-blue-500/10 transition-colors"
+            className="admin-button-secondary"
           >
             预览
           </a>
           <button
             type="submit" disabled={saving} onClick={() => { submitStatus.current = "draft"; }}
-            className="px-5 py-2.5 rounded-lg text-sm font-medium text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/10 disabled:opacity-50 transition-colors"
+            className="admin-button-secondary disabled:cursor-not-allowed disabled:opacity-60"
           >
             保存草稿
           </button>

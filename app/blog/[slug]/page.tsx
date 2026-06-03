@@ -58,21 +58,21 @@ export default async function ArticlePage({ params }: PageProps) {
   return (
     <>
       <Header />
-      <main className="pt-24 pb-16" style={{ background: "#060a14" }}>
+      <main className="bg-white pt-24 pb-16">
         <article className="max-w-4xl mx-auto px-4 md:px-8">
           <nav className="mb-8 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-cyan-400 transition-colors">首页</Link>
-            <span className="mx-2 text-gray-700">/</span>
-            <Link href="/blog" className="text-gray-500 hover:text-cyan-400 transition-colors">资讯动态</Link>
-            <span className="mx-2 text-gray-700">/</span>
-            <span className="text-gray-400">{article.title}</span>
+            <Link href="/" className="text-[#4e5969] hover:text-[#0052d9] transition-colors">首页</Link>
+            <span className="mx-2 text-[#c9cdd4]">/</span>
+            <Link href="/blog" className="text-[#4e5969] hover:text-[#0052d9] transition-colors">资讯动态</Link>
+            <span className="mx-2 text-[#c9cdd4]">/</span>
+            <span className="text-[#1d2129]">{article.title}</span>
           </nav>
 
           <header className="mb-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#1d2129] mb-4 leading-tight">
               {article.title}
             </h1>
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-4 text-sm text-[#86909c]">
               <time dateTime={article.publishedAt.toISOString()}>
                 {article.publishedAt.toLocaleDateString("zh-CN", {
                   year: "numeric",
@@ -81,11 +81,11 @@ export default async function ArticlePage({ params }: PageProps) {
                 })}
               </time>
             </div>
-            <div className="mt-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)" }} />
+            <div className="mt-6 h-px bg-[#e5e6eb]" />
           </header>
 
           {article.coverImage && (
-            <div className="relative mb-10 aspect-[3/2] overflow-hidden rounded-lg border border-cyan-500/10">
+            <div className="relative mb-10 aspect-[3/2] overflow-hidden rounded-lg border border-[#e5e6eb]">
               <Image
                 src={article.coverImage}
                 alt={`${article.title}封面`}
@@ -99,8 +99,8 @@ export default async function ArticlePage({ params }: PageProps) {
 
           <MarkdownContent content={article.content} />
 
-          <div className="mt-12 pt-8" style={{ borderTop: "1px solid rgba(56,189,248,0.08)" }}>
-            <Link href="/blog" className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+          <div className="mt-12 pt-8 border-t border-[#e5e6eb]">
+            <Link href="/blog" className="text-[#0052d9] hover:text-[#003ea0] transition-colors text-sm">
               &larr; 返回文章列表
             </Link>
           </div>

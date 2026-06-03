@@ -15,6 +15,29 @@ model Admin {
   articles  Article[]
 }
 
+model User {
+  id              String             @id @default(cuid())
+  email           String             @unique
+  name            String?
+  password        String
+  role            String             @default("user")
+  status          String             @default("active")
+  permissions     String?            @db.Text
+  menuAccess      String?            @db.Text
+  quota           Int                @default(100)
+  usedQuota       Int                @default(0)
+  authProvider    String             @default("email")
+  wechatOpenId    String?            @unique
+  ssoSubject      String?            @unique
+  lastLoginAt     DateTime?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  generationTasks AiGenerationTask[]
+
+  @@index([status, createdAt])
+  @@index([role])
+}
+
 model Article {
   id             String   @id @default(cuid())
   title          String
@@ -26,6 +49,7 @@ model Article {
   seoDescription String?
   seoKeywords    String?
   status         String   @default("draft")
+  featured       Boolean  @default(true)
   authorId       String
   author         Admin    @relation(fields: [authorId], references: [id])
   createdAt      DateTime @default(now())
@@ -34,4 +58,68 @@ model Article {
 
   @@index([status, publishedAt])
   @@index([slug])
+}
+
+model AiProviderConfig {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  displayName String
+  baseUrl     String          @default("https://ai-api.kkidc.com")
+  apiKey      String?
+  enabled     Boolean         @default(true)
+  isDefault   Boolean         @default(false)
+  notes       String?         @db.Text
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  models      AiModelConfig[]
+  tasks       AiGenerationTask[]
+
+  @@index([enabled, isDefault])
+}
+
+model AiModelConfig {
+  id              String           @id @default(cuid())
+  providerId      String
+  provider        AiProviderConfig @relation(fields: [providerId], references: [id])
+  capability      String
+  model           String
+  displayName     String
+  endpoint        String
+  enabled         Boolean          @default(true)
+  defaultParams   String?          @db.Text
+  creditCost      Int              @default(1)
+  sortOrder       Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@unique([providerId, capability, model])
+  @@index([capability, enabled, sortOrder])
+}
+
+model AiGenerationTask {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id])
+  providerId      String?
+  provider        AiProviderConfig? @relation(fields: [providerId], references: [id])
+  type            String
+  model           String
+  status          String           @default("pending")
+  title           String?
+  prompt          String           @db.Text
+  negativePrompt  String?          @db.Text
+  requestPayload  String?          @db.Text
+  responsePayload String?          @db.Text
+  remoteTaskId    String?
+  outputUrl       String?          @db.Text
+  outputText      String?          @db.Text
+  errorMessage    String?          @db.Text
+  creditCost      Int              @default(1)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  completedAt     DateTime?
+
+  @@index([userId, createdAt])
+  @@index([type, status, createdAt])
+  @@index([remoteTaskId])
 }

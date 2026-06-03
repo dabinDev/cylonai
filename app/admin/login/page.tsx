@@ -25,7 +25,6 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
-
       if (!res.ok) {
         setError(data.error || "登录失败");
         return;
@@ -40,114 +39,64 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#060a14" }}>
-      {/* Background grid */}
-      <div
-        className="fixed inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "linear-gradient(rgba(56,189,248,1) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,1) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      {/* Center glow */}
-      <div
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%)" }}
-      />
-
-      <div className="relative w-full max-w-sm">
-        {/* Login card */}
-        <div
-          className="rounded-2xl p-8"
-          style={{
-            background: "rgba(10, 15, 30, 0.8)",
-            backdropFilter: "blur(24px)",
-            border: "1px solid rgba(56, 189, 248, 0.1)",
-            boxShadow: "0 0 60px rgba(56, 189, 248, 0.05)",
-          }}
-        >
-          {/* Logo */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 flex items-center justify-center mb-4">
-              <Image src="/brand-icon.png" alt="赛隆AIGC" width={44} height={44} className="object-contain drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]" />
+    <div className="flex min-h-screen items-center justify-center bg-[#f5f7fa] px-4 py-10">
+      <div className="w-full max-w-[400px]">
+        <div className="mb-8 text-center">
+          <Link href="/" className="inline-flex items-center gap-3">
+            <Image src="/brand-icon.png" alt="赛隆 AI" width={40} height={40} className="object-contain" />
+            <div className="text-left">
+              <div className="text-lg font-semibold text-[#1d2129]">赛隆 AI</div>
+              <div className="text-xs text-[#86909c]">管理控制台</div>
             </div>
-            <h1 className="text-xl font-bold text-white">后台管理</h1>
-            <p className="text-gray-500 text-sm mt-1">赛隆AIGC</p>
+          </Link>
+        </div>
+
+        <div className="rounded-lg border border-[#e5e6eb] bg-white p-8 shadow-sm">
+          <div className="mb-6">
+            <h1 className="text-xl font-semibold text-[#1d2129]">管理员登录</h1>
+            <p className="mt-1 text-sm text-[#86909c]">请输入管理员账号登录控制台</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="username" className="block text-xs font-medium text-gray-500 mb-1.5 tracking-wider uppercase">
-                用户名
-              </label>
+              <label htmlFor="username" className="form-label">管理员账号</label>
               <input
                 id="username"
                 name="username"
-                type="text"
+                type="email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg text-sm text-white outline-none transition-all"
-                style={{
-                  background: "rgba(255, 255, 255, 0.04)",
-                  border: "1px solid rgba(56, 189, 248, 0.1)",
-                }}
-                onFocus={(e) => e.target.style.borderColor = "rgba(56, 189, 248, 0.3)"}
-                onBlur={(e) => e.target.style.borderColor = "rgba(56, 189, 248, 0.1)"}
-                placeholder="请输入用户名"
+                className="form-input h-10"
+                placeholder="cage_ben@sina.com"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-xs font-medium text-gray-500 mb-1.5 tracking-wider uppercase">
-                密码
-              </label>
+              <label htmlFor="password" className="form-label">密码</label>
               <input
                 id="password"
                 name="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg text-sm text-white outline-none transition-all"
-                style={{
-                  background: "rgba(255, 255, 255, 0.04)",
-                  border: "1px solid rgba(56, 189, 248, 0.1)",
-                }}
-                onFocus={(e) => e.target.style.borderColor = "rgba(56, 189, 248, 0.3)"}
-                onBlur={(e) => e.target.style.borderColor = "rgba(56, 189, 248, 0.1)"}
+                className="form-input h-10"
                 placeholder="请输入密码"
                 required
               />
             </div>
 
-            {error && (
-              <div
-                className="text-sm px-4 py-3 rounded-lg"
-                style={{ background: "rgba(239, 68, 68, 0.1)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.15)" }}
-              >
-                {error}
-              </div>
-            )}
+            {error && <div className="alert-error text-sm">{error}</div>}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 rounded-lg text-sm font-medium text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]"
-              style={{
-                background: "linear-gradient(135deg, #0ea5e9, #3b82f6, #6366f1)",
-                boxShadow: "0 0 20px rgba(14, 165, 233, 0.2)",
-              }}
-            >
+            <button type="submit" disabled={loading} className="btn-primary h-10 w-full">
               {loading ? "登录中..." : "登录"}
             </button>
           </form>
         </div>
 
-        {/* Back to site */}
-        <div className="text-center mt-6">
-          <Link href="/" className="text-gray-600 text-sm hover:text-cyan-400 transition-colors">
-            &larr; 返回首页
+        <div className="mt-6 text-center">
+          <Link href="/" className="text-sm text-[#86909c] transition-colors hover:text-[#0052d9]">
+            返回官网首页
           </Link>
         </div>
       </div>

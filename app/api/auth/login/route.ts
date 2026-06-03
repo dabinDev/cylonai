@@ -5,35 +5,38 @@ import { signToken } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { username, password } = await request.json();
+    const body = await request.json();
+    const username = String(body.username || body.email || "").trim();
+    const password = String(body.password || "");
 
     if (!username || !password) {
-      return NextResponse.json({ error: "请提供用户名和密码" }, { status: 400 });
+      return NextResponse.json({ error: "请提供管理员账号和密码" }, { status: 400 });
     }
 
     const admin = await prisma.admin.findUnique({ where: { username } });
     if (!admin) {
-      return NextResponse.json({ error: "用户名或密码错误" }, { status: 401 });
+      return NextResponse.json({ error: "账号或密码错误" }, { status: 401 });
     }
 
     const valid = await bcrypt.compare(password, admin.password);
     if (!valid) {
-      return NextResponse.json({ error: "用户名或密码错误" }, { status: 401 });
+      return NextResponse.json({ error: "账号或密码错误" }, { status: 401 });
     }
 
     const token = await signToken({ adminId: admin.id, username: admin.username });
-
     const response = NextResponse.json({ success: true, username: admin.username });
+
     response.cookies.set("admin_token", token, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 86400,
       path: "/",
     });
 
     return response;
-  } catch {
-    return NextResponse.json({ error: "服务器错误" }, { status: 500 });
+  } catch (error) {
+    console.error("Admin login failed", error);
+    return NextResponse.json({ error: "服务器错误，请稍后重试" }, { status: 500 });
   }
 }
