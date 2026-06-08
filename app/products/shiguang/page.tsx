@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ const scenes = [
 export default function ShiguangProductPage() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="bg-white text-[#1d2129]">
         <section className="relative overflow-hidden bg-hero-gradient px-4 py-24 md:px-8">
           <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">

@@ -1,4 +1,5 @@
 import HomeContent from "@/components/HomeContent";
+import { getCurrentHeaderUser } from "@/lib/currentUser";
 import { withTimeout } from "@/lib/withTimeout";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +31,6 @@ async function getLatestArticles() {
 }
 
 export default async function HomePage() {
-  const articles = await getLatestArticles();
-  return <HomeContent articles={articles} />;
+  const [articles, user] = await Promise.all([getLatestArticles(), getCurrentHeaderUser()]);
+  return <HomeContent articles={articles} user={user} />;
 }

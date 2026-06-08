@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import { contact } from "@/components/brand/siteData";
 
@@ -19,7 +19,7 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="min-h-screen bg-white">
         <section className="bg-hero-gradient px-4 py-24 md:px-8">
           <div className="mx-auto max-w-[1200px]">
@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <p><span className="font-semibold text-[#111827]">邮箱：</span>{contact.email}</p>
                 <div className="flex flex-wrap gap-3 pt-2">
                   <Link href="/studio" className="inline-flex h-10 items-center rounded-lg bg-[#0052d9] px-5 text-sm font-semibold text-white">
-                    AIGC 工作台
+                    创意工坊
                   </Link>
                   <Link href="/products" className="inline-flex h-10 items-center rounded-lg border border-[#e5e6eb] px-5 text-sm font-semibold text-[#1f2937]">
                     产品矩阵

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import { AIGC_STUDIO_SECTIONS, type StudioSectionKey } from "@/lib/aigcStudio";
 
@@ -11,25 +11,26 @@ export const metadata: Metadata = {
 };
 
 const workflow = ["选择创作入口", "补充素材要求", "提交生成任务", "预览内容结果", "沉淀可复用素材"] as const;
+const WORKBENCH_URL = "https://studio.cylonai.cn";
 
 export default function AigcPage() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="bg-white text-[#111827]">
         <section className="border-b border-[#dbe5f2] bg-[linear-gradient(180deg,#eef6ff_0%,#ffffff_100%)] px-4 py-16 md:px-8">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold text-[#006eff]">赛隆 AI 产品矩阵 / AIGC 创作平台</p>
               <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight text-[#111827] md:text-5xl">
-                一套工作台承接图文、影像和文案创作
+                一套创意工坊承接图文、影像和文案创作
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[#5f6b7a]">
-                赛隆 AIGC 面向营销、品牌和内容团队，把图片生成、视频创意和文案起稿组织成清晰入口。访客可以预览工作台，登录后再提交真实 AI 任务。
+                赛隆 AIGC 面向营销、品牌和内容团队，把图片生成、视频创意和文案起稿组织成清晰入口。访客可以预览创意工坊，登录后再提交真实 AI 任务。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/studio" target="_blank" className="inline-flex h-11 items-center rounded-md bg-[#006eff] px-6 text-sm font-semibold text-white hover:bg-[#005bd1]">
-                  打开创作工作台
+                <Link href={WORKBENCH_URL} target="_blank" rel="noreferrer" className="inline-flex h-11 items-center rounded-md bg-[#006eff] px-6 text-sm font-semibold text-white hover:bg-[#005bd1]">
+                  打开创意工坊
                 </Link>
                 <Link href="/register" className="inline-flex h-11 items-center rounded-md border border-[#c8d3e3] bg-white px-6 text-sm font-semibold text-[#1f2937] hover:border-[#006eff] hover:text-[#006eff]">
                   注册账号
@@ -71,7 +72,7 @@ export default function AigcPage() {
                 <div className="overflow-hidden rounded-md border border-[#dbe5f2] bg-[#f8fbff] p-2">
                   <Image
                     src="/brand/generated/aigc-studio-preview.png"
-                    alt="赛隆 AIGC 创作工作台预览"
+                    alt="赛隆 AIGC 创意工坊预览"
                     width={1536}
                     height={1024}
                     preload
@@ -122,13 +123,13 @@ export default function AigcPage() {
           <div className="mx-auto flex max-w-7xl flex-col gap-6 rounded-lg border border-[#dbe5f2] bg-[#0b1f3a] p-8 text-white md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-sm font-semibold text-[#8ec5ff]">开始使用</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">先预览工作台，再登录提交创作</h2>
+              <h2 className="mt-2 text-3xl font-semibold text-white">先预览创意工坊，再登录提交创作</h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-[#c7d7ec]">
                 未登录用户可以查看所有功能模块和素材结构。需要调用 AI 接口时，系统会提示登录并保护模型调用权限。
               </p>
             </div>
-            <Link href="/studio" target="_blank" className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-white px-6 text-sm font-semibold text-[#0b1f3a] hover:bg-[#eef6ff]">
-              新页面打开工作台
+            <Link href={WORKBENCH_URL} target="_blank" rel="noreferrer" className="inline-flex h-11 shrink-0 items-center justify-center rounded-md bg-white px-6 text-sm font-semibold text-[#0b1f3a] hover:bg-[#eef6ff]">
+              新页面打开创意工坊
             </Link>
           </div>
         </section>

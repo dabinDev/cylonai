@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import { productEntries } from "@/components/brand/siteData";
 
 export const metadata: Metadata = {
   title: "产品矩阵 - 赛隆 AI",
-  description: "赛隆 AI 产品矩阵覆盖赛隆视创、AIGC 工作台、Cyroute 模型网关和拾光视频。",
+  description: "赛隆 AI 产品矩阵覆盖赛隆视创、创意工坊、Cyroute 模型网关和拾光视频。",
 };
 
 const aigcProduct = {
   name: "赛隆 AIGC",
-  badge: "统一创作工作台",
+  badge: "统一创意工坊",
   status: "已上线",
   href: "/aigc",
-  externalHref: "/studio",
-  externalLabel: "打开工作台",
-  positioning: "面向团队的图片、视频和文案生成工作台，承接营销素材、社媒内容和品牌创意的日常生产。",
+  externalHref: "https://studio.cylonai.cn",
+  externalLabel: "打开创意工坊",
+  positioning: "面向团队的图片、视频和文案生成创意工坊，承接营销素材、社媒内容和品牌创意的日常生产。",
   audience: "品牌运营、内容策划、电商团队、设计协作团队",
   capabilities: ["图片生成", "视频创作", "文案辅助", "任务记录", "素材复用", "团队协作"],
   workflow: ["选择创作类型", "输入主题与要求", "生成内容草案", "沉淀任务结果"],
@@ -30,7 +30,7 @@ const allProducts = [productEntries[0], aigcProduct, productEntries[1], productE
 const platformLayers = [
   {
     title: "内容生产层",
-    description: "赛隆视创与 AIGC 工作台面向品牌、运营和内容团队，承担图片、文案、视频草案和视觉素材生产。",
+    description: "赛隆视创与创意工坊面向品牌、运营和内容团队，承担图片、文案、视频草案和视觉素材生产。",
     icon: "M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42",
   },
   {
@@ -60,7 +60,7 @@ export default function ProductsPage() {
 
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="bg-white text-[#1d2129]">
         {/* Hero */}
         <section className="bg-[#f5f7fa] px-4 py-16 md:px-8">
@@ -84,7 +84,7 @@ export default function ProductsPage() {
                 <div className="grid gap-3">
                   {productVisuals.slice(1).map((src, index) => (
                     <div key={src} className="overflow-hidden rounded-lg bg-[#f5f7fa]">
-                      <Image src={src} alt={index === 0 ? "赛隆 AIGC 创作工作台" : index === 1 ? "Cyroute API 网关控制台" : "拾光视频剪辑控制台"} width={1536} height={1024} sizes="(max-width: 768px) 100vw, 420px" className="h-[174px] w-full object-cover object-left-top md:h-[208px]" />
+                      <Image src={src} alt={index === 0 ? "赛隆 AIGC 创意工坊" : index === 1 ? "Cyroute API 网关控制台" : "拾光视频剪辑控制台"} width={1536} height={1024} sizes="(max-width: 768px) 100vw, 420px" className="h-[174px] w-full object-cover object-left-top md:h-[208px]" />
                     </div>
                   ))}
                 </div>

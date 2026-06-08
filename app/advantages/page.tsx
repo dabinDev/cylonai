@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import { advantages } from "@/components/brand/siteData";
 
@@ -21,7 +21,7 @@ const capabilities = [
 export default function AdvantagesPage() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="min-h-screen bg-white">
         <section className="bg-hero-gradient px-4 py-24 md:px-8">
           <div className="mx-auto max-w-[1200px]">

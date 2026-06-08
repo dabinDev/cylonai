@@ -1,6 +1,7 @@
 import { getUserAuthFromCookies } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AigcStudioClient from "@/components/aigc/AigcStudioClient";
+import Header from "@/components/Header";
 
 export const dynamic = "force-dynamic";
 
@@ -13,35 +14,10 @@ export default async function StudioPage() {
       })
     : null;
 
-  const tasks = user
-    ? await prisma.aiGenerationTask.findMany({
-        where: { userId: user.id },
-        orderBy: { createdAt: "desc" },
-        take: 20,
-        select: {
-          id: true,
-          type: true,
-          model: true,
-          status: true,
-          prompt: true,
-          outputUrl: true,
-          outputText: true,
-          remoteTaskId: true,
-          errorMessage: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-      })
-    : [];
-
   return (
-    <AigcStudioClient
-      user={user}
-      initialTasks={tasks.map((task) => ({
-        ...task,
-        createdAt: task.createdAt.toISOString(),
-        updatedAt: task.updatedAt.toISOString(),
-      }))}
-    />
+    <>
+      <Header user={user} />
+      <AigcStudioClient user={user} />
+    </>
   );
 }

@@ -11,7 +11,7 @@ const stats = [
 
 export default function BrandHero() {
   return (
-    <section className="relative overflow-hidden bg-hero-gradient min-h-[600px] flex items-center">
+    <section className="relative isolate overflow-hidden bg-hero-gradient min-h-[600px] flex items-center">
       {/* Decorative mesh dots */}
       <div className="absolute inset-0 opacity-[0.07]" style={{
         backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
@@ -19,8 +19,8 @@ export default function BrandHero() {
       }} />
 
       {/* Decorative blur orbs */}
-      <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-[#4a87f5]/20 blur-[120px]" />
-      <div className="absolute -bottom-24 -left-24 h-[400px] w-[400px] rounded-full bg-[#003d99]/30 blur-[100px]" />
+      <div className="pointer-events-none absolute right-0 top-0 h-[360px] w-[360px] rounded-full bg-[#4a87f5]/20 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-[#003d99]/30 blur-[100px]" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 py-20 md:py-28 w-full">
         <div className="grid items-center gap-14 md:grid-cols-[1fr_440px] lg:gap-20">
@@ -31,7 +31,7 @@ export default function BrandHero() {
               赛隆 AI 企业级产品官网
             </span>
 
-            <h1 className="max-w-xl text-[36px] font-bold leading-[1.25] tracking-tight text-white md:text-[44px] lg:text-[48px]">
+            <h1 className="max-w-xl text-[36px] font-bold leading-[1.25] tracking-normal text-white md:text-[44px] lg:text-[48px]">
               面向内容生产与
               <br />
               <span className="bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
@@ -41,7 +41,7 @@ export default function BrandHero() {
             </h1>
 
             <p className="mt-6 max-w-lg text-base leading-8 text-blue-100/80 md:text-lg md:leading-9">
-              赛隆 AI 提供视觉创作、AIGC 工作台、企业 API 服务和视频生产相关产品，帮助团队提升内容生产效率，并为技术团队提供稳定的 AI 能力接入方式。
+              赛隆 AI 提供视觉创作、创意工坊、企业 API 服务和视频生产相关产品，帮助团队提升内容生产效率，并为技术团队提供稳定的 AI 能力接入方式。
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -53,11 +53,12 @@ export default function BrandHero() {
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </Link>
               <Link
-                href="/studio"
+                href="https://studio.cylonai.cn"
                 target="_blank"
+                rel="noreferrer"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-8 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:border-white/40 hover:bg-white/20"
               >
-                打开 AIGC 工作台
+                打开创意工坊
               </Link>
             </div>
           </div>

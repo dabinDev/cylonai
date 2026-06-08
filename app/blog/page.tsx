@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
@@ -52,10 +52,10 @@ export default async function BlogPage({
 
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="min-h-screen bg-white">
-        <section className="relative overflow-hidden bg-hero-gradient px-4 py-20 md:px-8">
-          <div className="absolute -top-24 -right-24 h-[300px] w-[300px] rounded-full bg-blue-400/10 blur-[100px]" />
+        <section className="relative isolate overflow-hidden bg-hero-gradient px-4 py-20 md:px-8">
+          <div className="pointer-events-none absolute right-0 top-0 h-[240px] w-[240px] rounded-full bg-blue-400/10 blur-[100px]" />
           <div className="relative mx-auto max-w-[1200px]">
             <span className="badge-premium bg-white/15 text-white/90 backdrop-blur-sm">资讯动态</span>
             <h1 className="mt-4 text-3xl font-bold text-white md:text-4xl">赛隆 AI 资讯动态</h1>

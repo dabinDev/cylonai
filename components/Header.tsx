@@ -2,19 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { brandNavItems } from "./brand/siteData";
+import type { HeaderUser } from "@/lib/currentUser";
 
 interface HeaderProps {
   onContactClick?: () => void;
+  user?: HeaderUser | null;
 }
 
-export default function Header({ onContactClick }: HeaderProps) {
+export default function Header({ onContactClick, user }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
+  async function logout() {
+    await fetch("/api/user/auth/logout", { method: "POST" });
+    setMobileOpen(false);
+    router.refresh();
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#e5eaf3] bg-white/90 backdrop-blur-xl">
@@ -42,12 +51,33 @@ export default function Header({ onContactClick }: HeaderProps) {
         </nav>
 
         <div className="hidden items-center gap-2.5 md:flex">
-          <Link
-            href="/login"
-            className="rounded-md border border-[#e5e6eb] bg-white px-4 py-1.5 text-sm font-medium text-[#4e5969] transition-colors hover:border-[#0052d9] hover:text-[#0052d9]"
-          >
-            登录
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href="/studio"
+                className="rounded-md border border-[#d9e3f7] bg-[#f7fbff] px-4 py-1.5 text-sm font-medium text-[#0052d9] transition-colors hover:border-[#0052d9]/40"
+              >
+                创意工坊
+              </Link>
+              <span className="max-w-[180px] truncate rounded-md border border-[#e5e6eb] bg-white px-3 py-1.5 text-sm text-[#4e5969]">
+                {user.name || user.email}
+              </span>
+              <button
+                type="button"
+                onClick={logout}
+                className="rounded-md border border-[#e5e6eb] bg-white px-3 py-1.5 text-sm font-medium text-[#4e5969] transition-colors hover:border-[#0052d9] hover:text-[#0052d9]"
+              >
+                退出
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-md border border-[#e5e6eb] bg-white px-4 py-1.5 text-sm font-medium text-[#4e5969] transition-colors hover:border-[#0052d9] hover:text-[#0052d9]"
+            >
+              登录
+            </Link>
+          )}
           {onContactClick ? (
             <button
               type="button"
@@ -96,17 +126,39 @@ export default function Header({ onContactClick }: HeaderProps) {
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2.5 border-t border-[#e5e6eb] pt-3">
-              <Link
-                href="/login"
-                className="flex-1 rounded-md border border-[#e5e6eb] px-4 py-2 text-center text-sm font-medium text-[#4e5969]"
-                onClick={() => setMobileOpen(false)}
-              >
-                登录
-              </Link>
+            <div className="mt-2 grid gap-2.5 border-t border-[#e5e6eb] pt-3 sm:grid-cols-2">
+              {user ? (
+                <>
+                  <Link
+                    href="/studio"
+                    className="rounded-md border border-[#d9e3f7] bg-[#f7fbff] px-4 py-2 text-center text-sm font-medium text-[#0052d9]"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    创意工坊
+                  </Link>
+                  <button
+                    type="button"
+                    className="rounded-md border border-[#e5e6eb] px-4 py-2 text-center text-sm font-medium text-[#4e5969]"
+                    onClick={logout}
+                  >
+                    退出
+                  </button>
+                  <div className="sm:col-span-2 truncate rounded-md bg-[#f7f8fa] px-3 py-2 text-center text-xs text-[#86909c]">
+                    {user.name || user.email}
+                  </div>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  className="rounded-md border border-[#e5e6eb] px-4 py-2 text-center text-sm font-medium text-[#4e5969]"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  登录
+                </Link>
+              )}
               <Link
                 href="/about"
-                className="flex-1 rounded-md bg-[#0052d9] px-4 py-2 text-center text-sm font-medium text-white"
+                className="rounded-md bg-[#0052d9] px-4 py-2 text-center text-sm font-medium text-white"
                 onClick={() => setMobileOpen(false)}
               >
                 联系我们

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import { solutions } from "@/components/brand/siteData";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const industries = [
-  ["内容团队", "通过赛隆视创和 AIGC 工作台完成创意、素材、文案和视频任务。"],
+  ["内容团队", "通过赛隆视创和创意工坊完成创意、素材、文案和视频任务。"],
   ["技术团队", "通过 Cyroute 为业务系统接入 AI 服务，减少重复开发和维护成本。"],
   ["运营团队", "围绕活动素材、社媒内容和品牌表达，建立更高效的内容生产方式。"],
 ] as const;
@@ -19,7 +19,7 @@ const industries = [
 export default function SolutionsPage() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="min-h-screen bg-white">
         <section className="bg-hero-gradient px-4 py-24 md:px-8">
           <div className="mx-auto max-w-[1200px]">

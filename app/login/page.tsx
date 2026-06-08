@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+
+const STUDIO_URL = "https://studio.cylonai.cn";
 
 export default function LoginPage() {
   return (
@@ -13,13 +15,16 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const next = searchParams.get("next") || "/studio";
+  const requestedNext = searchParams.get("next") || STUDIO_URL;
+  const next =
+    requestedNext.startsWith("/") || requestedNext === STUDIO_URL
+      ? requestedNext
+      : STUDIO_URL;
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -36,7 +41,7 @@ function LoginForm() {
         setError(data.error || "登录失败");
         return;
       }
-      router.push(next);
+      window.location.assign(next);
     } catch {
       setError("网络错误，请稍后重试");
     } finally {
@@ -57,7 +62,7 @@ function LoginForm() {
         </div>
         <div className="relative z-10">
           <h1 className="text-3xl font-bold leading-tight text-white">面向内容生产与<br/>企业 AI 服务的平台</h1>
-          <p className="mt-4 max-w-sm text-sm leading-7 text-blue-100/60">登录后使用 AIGC 生图、视频创意和 AI 文案工作台，提升内容生产效率。</p>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-blue-100/60">登录后进入创意工坊，使用 AIGC 生图、视频创意和 AI 文案能力，提升内容生产效率。</p>
         </div>
       </div>
 
@@ -68,7 +73,7 @@ function LoginForm() {
             <span className="text-lg font-bold text-[#111827]">赛隆 AI</span>
           </div>
           <h1 className="text-2xl font-bold text-[#111827]">登录赛隆账号</h1>
-          <p className="mt-2 text-sm text-[#86909c]">登录后可使用 AIGC 生图、视频创意和 AI 文案工作台</p>
+          <p className="mt-2 text-sm text-[#86909c]">登录后可进入创意工坊，使用 AIGC 生图、视频创意和 AI 文案</p>
           <form onSubmit={submit} className="mt-8 space-y-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-[#1f2937]">邮箱</label>
@@ -80,7 +85,7 @@ function LoginForm() {
             </div>
             {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>}
             <button type="submit" disabled={loading} className="flex h-12 w-full items-center justify-center rounded-lg bg-[#0052d9] text-sm font-semibold text-white transition-all hover:bg-[#0041b0] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50">
-              {loading ? <span className="flex items-center gap-2"><svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>登录中...</span> : "登录并进入工作台"}
+              {loading ? <span className="flex items-center gap-2"><svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>登录中...</span> : "登录并进入创意工坊"}
             </button>
           </form>
           <p className="mt-6 text-center text-sm text-[#86909c]">还没有账号？<Link href="/register" className="ml-1 font-medium text-[#0052d9] hover:underline">立即注册</Link></p>

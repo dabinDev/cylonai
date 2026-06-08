@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const STUDIO_URL = "https://studio.cylonai.cn";
+
 export default function RegisterPage() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function RegisterPage() {
         setError(data.error || "注册失败");
         return;
       }
-      router.push("/studio");
+      window.location.assign(STUDIO_URL);
     } catch {
       setError("网络错误，请稍后重试");
     } finally {
@@ -63,7 +63,7 @@ export default function RegisterPage() {
             <span className="text-lg font-bold text-[#111827]">赛隆 AI</span>
           </div>
           <h1 className="text-2xl font-bold text-[#111827]">注册赛隆账号</h1>
-          <p className="mt-2 text-sm text-[#86909c]">注册后可使用 AIGC 生图、视频创意和 AI 文案工作台</p>
+          <p className="mt-2 text-sm text-[#86909c]">注册后可进入创意工坊，使用 AIGC 生图、视频创意和 AI 文案</p>
           <form onSubmit={submit} className="mt-8 space-y-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-[#1f2937]">名称</label>
@@ -79,7 +79,7 @@ export default function RegisterPage() {
             </div>
             {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>}
             <button type="submit" disabled={loading} className="flex h-12 w-full items-center justify-center rounded-lg bg-[#0052d9] text-sm font-semibold text-white transition-all hover:bg-[#0041b0] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50">
-              {loading ? <span className="flex items-center gap-2"><svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>注册中...</span> : "注册并进入工作台"}
+              {loading ? <span className="flex items-center gap-2"><svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>注册中...</span> : "注册并进入创意工坊"}
             </button>
           </form>
           <p className="mt-6 text-center text-sm text-[#86909c]">已有账号？<Link href="/login" className="ml-1 font-medium text-[#0052d9] hover:underline">去登录</Link></p>

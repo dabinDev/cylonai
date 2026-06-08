@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 
 export default function NotFound() {
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="flex min-h-[60vh] flex-col items-center justify-center bg-[#f5f8fc] px-4 py-16">
         <p className="text-6xl font-bold text-[#006eff]">404</p>
         <h1 className="mt-4 text-2xl font-semibold text-[#111827]">页面未找到</h1>

@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export default function BrandCta() {
   return (
-    <section id="contact" className="relative overflow-hidden bg-hero-gradient px-4 py-20 md:px-8">
+    <section id="contact" className="relative isolate overflow-hidden bg-hero-gradient px-4 py-20 md:px-8">
       {/* Decorative orbs */}
-      <div className="absolute -top-24 -right-24 h-[300px] w-[300px] rounded-full bg-blue-400/10 blur-[100px]" />
-      <div className="absolute -bottom-16 -left-16 h-[200px] w-[200px] rounded-full bg-blue-300/10 blur-[80px]" />
+      <div className="pointer-events-none absolute right-0 top-0 h-[240px] w-[240px] rounded-full bg-blue-400/10 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-[160px] w-[160px] rounded-full bg-blue-300/10 blur-[80px]" />
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div>

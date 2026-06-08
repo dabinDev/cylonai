@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Header from "@/components/Header";
+import HeaderServer from "@/components/HeaderServer";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
 import Image from "next/image";
@@ -57,7 +57,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
   return (
     <>
-      <Header />
+      <HeaderServer />
       <main className="bg-white pt-24 pb-16">
         <article className="max-w-4xl mx-auto px-4 md:px-8">
           <nav className="mb-8 text-sm">

@@ -70,7 +70,7 @@ const permissionOptions = [
 ] as const;
 
 const menuOptions = [
-  ["studio", "AIGC 工作台"],
+  ["studio", "创意工坊"],
   ["tasks", "生成记录"],
   ["profile", "个人中心"],
   ["articles", "文章内容"],

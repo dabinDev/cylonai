@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type TaskRow = {
@@ -191,7 +192,9 @@ export default function AdminAigcPage() {
               </tr>
             ) : tasks.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-16 text-center text-sm text-[#86909c]">暂无任务记录</td>
+                <td colSpan={8} className="px-6 py-14">
+                  <EmptyTaskState hasFilters={Boolean(filterType || filterStatus)} />
+                </td>
               </tr>
             ) : (
               tasks.map((task) => (
@@ -301,6 +304,41 @@ export default function AdminAigcPage() {
 }
 
 /* ---------- Sub-components ---------- */
+
+function EmptyTaskState({ hasFilters }: { hasFilters: boolean }) {
+  return (
+    <div className="mx-auto max-w-2xl rounded-xl border border-dashed border-[#c8d5ea] bg-[linear-gradient(135deg,#f7fbff,#ffffff)] p-8 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-[#e8f0fe] text-[#0052d9]">
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75h6m-7.5 4.5h9m-11.25 4.5h13.5M7.5 18h9M5.25 6.75A2.25 2.25 0 0 1 7.5 4.5h9a2.25 2.25 0 0 1 2.25 2.25v12A2.25 2.25 0 0 1 16.5 21h-9a2.25 2.25 0 0 1-2.25-2.25v-12Z" />
+        </svg>
+      </div>
+      <h2 className="mt-4 text-base font-semibold text-[#1d2129]">
+        {hasFilters ? "当前筛选下暂无生成任务" : "暂无 AIGC 生成任务"}
+      </h2>
+      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#86909c]">
+        {hasFilters
+          ? "可以切换任务类型或状态查看其他记录。任务产生后会在这里呈现模型、用户、消耗、结果和错误信息。"
+          : "创意工坊已上线，图片、视频和文案生成任务会进入这里，便于运营团队追踪状态、模型消耗和用户归属。"}
+      </p>
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <Link
+          href="/studio"
+          target="_blank"
+          className="inline-flex h-10 items-center justify-center rounded-md bg-[#0052d9] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0046c7]"
+        >
+          查看官网入口
+        </Link>
+        <Link
+          href="/admin/model-configs"
+          className="inline-flex h-10 items-center justify-center rounded-md border border-[#dbe5f2] bg-white px-4 text-sm font-semibold text-[#1d2129] shadow-sm transition-colors hover:border-[#0052d9]/40 hover:text-[#0052d9]"
+        >
+          配置模型接入
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 function StatCard({ label, value, icon }: { label: string; value: number; icon: "total" | "completed" | "failed" | "processing" }) {
   const iconBg = {

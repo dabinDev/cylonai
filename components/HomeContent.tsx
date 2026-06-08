@@ -8,6 +8,7 @@ import AdvantagesSection from "./brand/AdvantagesSection";
 import BrandCta from "./brand/BrandCta";
 import BlogPreview from "./BlogPreview";
 import Footer from "./Footer";
+import type { HeaderUser } from "@/lib/currentUser";
 
 interface Article {
   id: string;
@@ -20,12 +21,13 @@ interface Article {
 
 interface HomeContentProps {
   articles: Article[];
+  user?: HeaderUser | null;
 }
 
-export default function HomeContent({ articles }: HomeContentProps) {
+export default function HomeContent({ articles, user }: HomeContentProps) {
   return (
     <>
-      <Header />
+      <Header user={user} />
       <HomeContactController />
       <main>
         <BrandHero />
